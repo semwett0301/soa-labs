@@ -13,3 +13,4 @@ Repository rules:
 ***311295***
 ### Task
 
+### [Link](https://se.ifmo.ru/~s311295/)
