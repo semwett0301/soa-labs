@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: Study Group API
+  version: 1.0.0
+  description: API for managing study groups
+servers:
+  - url: http://localhost:8080/isu/v1
+paths:
+  /groups:
+    get:
+      summary: Get all study groups
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+    
+        - name: sortBy
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+        - name: filterBy
+          in: query
+          description: Field to filter by
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudyGroup'
+    post:
+      summary: Create study group
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StudyGroup'
+      responses:
+        201:
+          description: OK
+        
+        
+  /groups/{groupId}:
+    get:
+      summary: Get a study group by ID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudyGroup'
+        404:
+          description: NOT FOUND
+    put:
+      summary: "update study group"
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StudyGroup'
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+    delete:
+      summary: "delete study group"
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+    
+      
+          
+    # Другие операции (PUT, DELETE) для обновления и удаления группы
+  /groups/min-admin:
+    get:
+      summary: Get a study group with the minimum groupAdmin value
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudyGroup'
+  /groups/max-admin:
+    get:
+      summary: Get a study group with the maximum groupAdmin value
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudyGroup'
+  /groups/group-count-by-name:
+    get:
+      summary: Get the count of study groups by name
+      responses:
+        200:
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    count:
+                      type: integer
+components:
+  schemas:
+    StudyGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          format: date-time
+        studentsCount:
+          type: integer
+        formOfEducation:
+          type: string
+          enum:
+            - DISTANCE_EDUCATION
+            - FULL_TIME_EDUCATION
+            - EVENING_CLASSES
+        semesterEnum:
+          type: string
+          enum:
+            - THIRD
+            - FIFTH
+            - SIXTH
+        groupAdmin:
+          $ref: '#/components/schemas/Person'
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: integer
+        y:
+          type: integer
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+        birthday:
+          type: string
+          format: date-time
+        height:
+          type: number
+        weight:
+          type: number
+        passportID:
+          type: string
