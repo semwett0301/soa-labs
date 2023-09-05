@@ -135,7 +135,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GroupCountByNameResponce'
+                  $ref: '#/components/schemas/GroupCountByNameResponse'
 components:
   schemas:
     StudyGroup:
@@ -187,10 +187,10 @@ components:
           type: number
         passportID:
           type: string
-    GroupCountByNameResponce:
+    GroupCountByNameResponse:
       type : object
       properties:
-        gproupName:
+        groupName:
           type: string
         count:
           type: number
