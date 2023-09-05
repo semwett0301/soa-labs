@@ -35,7 +35,7 @@ paths:
         200:
           description: OK
           content:
-            application/xml:
+            application/json:
               schema:
                 type: array
                 items:
@@ -44,9 +44,9 @@ paths:
       summary: Create study group
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/StudyGroup'
+              $ref: '#/components/schemas/StudyGroupRequest'
       responses:
         201:
           description: OK
@@ -66,7 +66,7 @@ paths:
         200:
           description: OK
           content:
-            application/xml:
+            application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
         404:
@@ -82,9 +82,9 @@ paths:
             minimum: 1
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/StudyGroup'
+              $ref: '#/components/schemas/StudyGroupRequest'
       responses:
         200:
           description: OK
@@ -104,10 +104,6 @@ paths:
           description: OK
         404:
           description: NOT FOUND
-    
-      
-          
-    # Другие операции (PUT, DELETE) для обновления и удаления группы
   /groups/min-admin:
     get:
       summary: Get a study group with the minimum groupAdmin value
@@ -115,7 +111,7 @@ paths:
         200:
           description: OK
           content:
-            application/xml:
+            application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
   /groups/max-admin:
@@ -125,7 +121,7 @@ paths:
         200:
           description: OK
           content:
-            application/xml:
+            application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
   /groups/group-count-by-name:
@@ -135,16 +131,11 @@ paths:
         200:
           description: OK
           content:
-            application/xml:
+            application/json:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    count:
-                      type: integer
+                  $ref: '#/components/schemas/GroupCountByNameResponce'
 components:
   schemas:
     StudyGroup:
@@ -196,3 +187,36 @@ components:
           type: number
         passportID:
           type: string
+    GroupCountByNameResponce:
+      type : object
+      properties:
+        gproupName:
+          type: string
+        count:
+          type: number
+    StudyGroupRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          format: date-time
+        studentsCount:
+          type: integer
+        formOfEducation:
+          type: string
+          enum:
+            - DISTANCE_EDUCATION
+            - FULL_TIME_EDUCATION
+            - EVENING_CLASSES
+        semesterEnum:
+          type: string
+          enum:
+            - THIRD
+            - FIFTH
+            - SIXTH
+        groupAdmin:
+          $ref: '#/components/schemas/Person'
