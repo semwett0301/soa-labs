@@ -13,4 +13,5 @@ Repository rules:
 ***311295***
 ### Task
 
-### [Link](https://se.ifmo.ru/~s311295/)
+### [GroupService.yaml](https://se.ifmo.ru/~s311295?service=GroupService)
+### [IsuService.yaml](https://se.ifmo.ru/~s311295?service=IsuService)
