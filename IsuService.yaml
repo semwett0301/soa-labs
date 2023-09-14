@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: ISU API
+  description: API for managing ISU
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/api/v1/isu'
+    description: "DEV SERVER"
+paths:
+  /groups/{group-id}/expel-all:
+    post:
+      summary: Expell all students
+      tags:
+        - Isu
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './GroupService.yaml#/components/schemas/Person'
+        404:
+          description: NOT FOUND
+  /group/{group-id}/change-edu-form/{new-form}:
+    patch:
+      summary: Change study format for group
+      tags:
+        - Isu
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+        - name: new-form
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - DISTANCE_EDUCATION
+              - FULL_TIME_EDUCATION
+              - EVENING_CLASSES
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: './GroupService.yaml#/components/schemas/StudyGroup'
+        404:
+          description: NOT FOUND
+
