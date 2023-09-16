@@ -31,7 +31,7 @@ paths:
         404:
           description: NOT FOUND
   /groups/{group-id}/change-edu-form/{new-form}:
-    patch:
+    post:
       summary: Change study format for group
       tags:
         - Isu

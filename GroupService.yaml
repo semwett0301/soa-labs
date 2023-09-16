@@ -23,17 +23,80 @@ paths:
           description: Number of items per page
           schema:
             type: integer
-
-        - name: sortBy
+        - name: name
           in: query
-          description: Field to sort by
           schema:
             type: string
-        - name: filterBy
+        - name: coordinateXFrom
           in: query
-          description: Field to filter by
+          schema:
+            type: integer
+        - name: coordinateXTo
+          in: query
+          schema:
+            type: integer
+        - name: coordinateYFrom
+          in: query
+          schema:
+            type: integer
+        - name: coordinateYTo
+          in: query
+          schema:
+            type: integer
+        - name: creationDateFrom
+          in: query
           schema:
             type: string
+        - name: creationDateTo
+          in: query
+          schema:
+            type: string
+        - name: studentsCount
+          in: query
+          schema:
+            type: integer
+        - name: formOfEducation
+          in: query
+          schema:
+            type: string
+            enum:
+              - DISTANCE_EDUCATION
+              - FULL_TIME_EDUCATION
+              - EVENING_CLASSES
+        - name: semesterEnum
+          in: query
+          schema:
+            type: string
+            enum:
+              - THIRD
+              - FIFTH
+              - SIXTH
+        - name: sort
+          in: query
+          description: Array of fields that are used for sorting. The "-" sign means sorting in descending order. If queries and deletion order are provided for one field (with and without "-"), an error response will be returned.
+          required: false
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - +id
+                - +name
+                - +creationDate
+                - +coordinatesX
+                - +coordinatesY
+                - +studentsCount
+                - +formOfEducation
+                - +semesterEnum
+                - -id
+                - -name
+                - -creationDate
+                - -coordinatesX
+                - -coordinatesY
+                - -studentsCount
+                - -formOfEducation
+                - -semesterEnum
       responses:
         200:
           description: OK
@@ -51,10 +114,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudyGroupRequest'
+              $ref: '#/components/schemas/StudyGroup'
       responses:
         201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudyGroupRequest'
           description: OK
+        400:
+          description: BAD REQUEST
 
 
   /groups/{groupId}:
@@ -76,8 +145,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-        404:
-          description: NOT FOUND
+        400:
+          description: BAD REQUEST
     put:
       summary: "update study group"
       tags:
@@ -97,8 +166,8 @@ paths:
       responses:
         200:
           description: OK
-        404:
-          description: NOT FOUND
+        400:
+          description: BAD REQUEST
     delete:
       summary: "delete study group"
       tags:
@@ -116,7 +185,7 @@ paths:
         404:
           description: NOT FOUND
   /groups/min-admin:
-    get:
+    post:
       summary: Get a study group with the minimum groupAdmin value
       tags:
         - Groups
@@ -128,7 +197,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
   /groups/max-admin:
-    get:
+    post:
       summary: Get a study group with the maximum groupAdmin value
       tags:
         - Groups
