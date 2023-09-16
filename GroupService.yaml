@@ -103,9 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/StudyGroup'
+                $ref: '#/components/schemas/StudyGroupsResponse'
     post:
       summary: Create study group
       tags:
@@ -312,3 +310,16 @@ components:
             - SIXTH
         groupAdmin:
           $ref: '#/components/schemas/Person'
+    StudyGroupsResponse:
+      type: object
+      properties:
+        total_results:
+          type: integer
+        results_per_page:
+          type: integer
+        page:
+          type: integer
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudyGroup'
