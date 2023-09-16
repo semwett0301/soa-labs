@@ -30,7 +30,7 @@ paths:
                   $ref: './GroupService.yaml#/components/schemas/Person'
         404:
           description: NOT FOUND
-  /group/{group-id}/change-edu-form/{new-form}:
+  /groups/{group-id}/change-edu-form/{new-form}:
     patch:
       summary: Change study format for group
       tags:
