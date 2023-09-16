@@ -123,7 +123,7 @@ paths:
                 $ref: '#/components/schemas/StudyGroupRequest'
           description: OK
         400:
-          description: BAD REQUEST
+          description: Group data isn't correct
 
 
   /groups/{groupId}:
@@ -145,8 +145,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
-        400:
-          description: BAD REQUEST
+        404:
+          description: Group ID not found
     put:
       summary: "update study group"
       tags:
@@ -167,7 +167,9 @@ paths:
         200:
           description: OK
         400:
-          description: BAD REQUEST
+          description: Group data isn't correct
+        404:
+          description: Group ID not found
     delete:
       summary: "delete study group"
       tags:
@@ -183,7 +185,7 @@ paths:
         200:
           description: OK
         404:
-          description: NOT FOUND
+          description: Group ID not found
   /groups/min-admin:
     post:
       summary: Get a study group with the minimum groupAdmin value
@@ -196,6 +198,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
+        404:
+          description: There is no one group
   /groups/max-admin:
     post:
       summary: Get a study group with the maximum groupAdmin value
@@ -208,6 +212,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudyGroup'
+        404:
+          description: There is no one group
   /groups/group-count-by-name:
     get:
       summary: Get the count of study groups by name

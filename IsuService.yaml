@@ -29,7 +29,7 @@ paths:
                 items:
                   $ref: './GroupService.yaml#/components/schemas/Person'
         404:
-          description: NOT FOUND
+          description: Group ID not found
   /groups/{group-id}/change-edu-form/{new-form}:
     post:
       summary: Change study format for group
@@ -58,6 +58,8 @@ paths:
             application/json:
               schema:
                 $ref: './GroupService.yaml#/components/schemas/StudyGroup'
+        400:
+          description: There is no such form
         404:
-          description: NOT FOUND
+          description: Group ID not found
 
