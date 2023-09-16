@@ -15,3 +15,4 @@ Repository rules:
 
 ### [GroupService.yaml](https://se.ifmo.ru/~s311295?service=GroupService)
 ### [IsuService.yaml](https://se.ifmo.ru/~s311295?service=IsuService)
+### [Report](https://docs.google.com/document/d/1t-HmCr98i-lM0qwHbr2cHQSBOI9NKOwr3xxRdz-pHsI/edit?usp=sharing)
