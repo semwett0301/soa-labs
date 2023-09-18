@@ -213,7 +213,7 @@ paths:
         404:
           description: There is no one group
   /groups/group-count-by-name:
-    get:
+    post:
       summary: Get the count of study groups by name
       tags:
         - Groups
