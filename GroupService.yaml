@@ -112,13 +112,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StudyGroup'
+              $ref: '#/components/schemas/StudyGroupRequest'
       responses:
         201:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StudyGroupRequest'
+                $ref: '#/components/schemas/StudyGroup'
           description: OK
         400:
           description: Group data isn't correct
@@ -291,9 +291,6 @@ components:
           type: string
         coordinates:
           $ref: '#/components/schemas/Coordinates'
-        creationDate:
-          type: string
-          format: date-time
         studentsCount:
           type: integer
         formOfEducation:
