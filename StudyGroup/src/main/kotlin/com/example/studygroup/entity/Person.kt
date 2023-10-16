@@ -12,8 +12,8 @@ class Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
-    val name: String,
-    val birthday: LocalDateTime,
+    var name: String,
+    var birthday: LocalDateTime,
     val height: Long = 0,
     val weight: Float = 0f,
     val passportID: String

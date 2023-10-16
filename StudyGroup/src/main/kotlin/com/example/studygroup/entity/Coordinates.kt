@@ -10,6 +10,6 @@ class Coordinates(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
-    val x: Long,
-    val y: Int
+    var x: Long,
+    var y: Int
 )

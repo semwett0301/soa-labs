@@ -1,18 +1,16 @@
 package com.example.studygroup.dto
 
-import com.example.studygroup.entity.Coordinates
 import com.example.studygroup.entity.FormOfEducation
-import com.example.studygroup.entity.Person
 import com.example.studygroup.entity.Semester
 import java.time.LocalDateTime
 
 data class StudyGroupCreationRequest(
     val name: String,
-    val coordinates: Coordinates,
+    val coordinates: CoordinatesCreationRequest,
     val studentsCount: Long? = null,
     val formOfEducation: FormOfEducation,
     val semesterEnum: Semester,
-    val groupAdmin: Person
+    val groupAdmin: AdminCreationRequest?
 )
 
 data class CoordinatesCreationRequest(
