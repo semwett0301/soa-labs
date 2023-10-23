@@ -310,13 +310,55 @@ components:
     StudyGroupsResponse:
       type: object
       properties:
-        total_results:
-          type: integer
-        results_per_page:
-          type: integer
-        page:
-          type: integer
         content:
           type: array
           items:
             $ref: '#/components/schemas/StudyGroup'
+        pageable:
+          type: object
+          properties:
+            pageNumber:
+              type: number
+            pageSize:
+              type : number
+            sort:
+              type : object
+              properties:
+                empty:
+                  type: boolean
+                sorted:
+                  type: boolean
+                unsorted:
+                  type: boolean
+            offset:
+              type: number
+            paged:
+              type: boolean
+            unpaged:
+              type: boolean
+        last:
+          type: boolean
+        totalPages:
+          type: number
+        totalElements:
+          type: number
+        size:
+          type: number
+        number:
+          type: number
+        sort:
+          type: object
+          properties:
+            empty:
+              type: boolean
+            sorted:
+              type:
+                boolean
+            unsorted:
+              type: boolean
+        first:
+          type: boolean
+        numberOfElements:
+          type: number
+        emmpty:
+          type: boolean
