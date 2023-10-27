@@ -2,7 +2,7 @@ import { omit } from "ramda";
 import { CustomTableColumns, StudyGroup } from "types";
 
 import { formatDateToRussianDate } from "./date";
-import { formOfEducationToString } from "./formOfEducationToString";
+import { formOfEducationToFormName } from "./formOfEducationToFormName";
 import { semesterEnumToNumber } from "./semesterEnumToNumber";
 
 export const studyGroupToColumn: (
@@ -17,8 +17,8 @@ export const studyGroupToColumn: (
     return {
       ...resGroup,
       creationDate: formatDateToRussianDate(new Date(group.creationDate)),
-      formOfEducation: formOfEducationToString[group.formOfEducation],
-      groupAdminName: group.groupAdmin.name,
+      formOfEducation: formOfEducationToFormName[group.formOfEducation],
+      groupAdminName: group.groupAdmin?.name ?? "",
       key: idx,
       semesterEnum: semesterEnumToNumber[group.semesterEnum],
     };

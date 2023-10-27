@@ -1,3 +1,4 @@
-export * from "./LoadContainer/LoadContainer";
-export * from "./MainContainer/MainContainer";
-export * from "./TableSection/TableSection";
+export * from "./AdditionalInfoSection";
+export * from "./LoadContainer";
+export * from "./MainContainer";
+export * from "./TableSection";

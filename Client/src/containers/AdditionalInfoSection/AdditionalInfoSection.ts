@@ -1,15 +1,11 @@
 import styled from "styled-components";
 
-export const LoadWrapper = styled.div`
+export const AdditionalInfoSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 50px;
 
-  flex-direction: column;
-
-  flex-grow: 1;
+  gap: 20px;
 
   width: 100%;
-  height: 100%;
 `;
