@@ -27,13 +27,15 @@
     "react-input-mask": "^3.0.0-alpha.2",
     "react-redux": "^8.1.2",
     "react-scripts": "^5.0.1",
-    "redux-saga": "^1.2.3"
+    "redux-saga": "^1.2.3",
+    "styled-components": "^6.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
     "@babel/eslint-parser": "^7.21.8",
     "@svgr/webpack": "^7.0.0",
     "@types/ramda": "^0.29.1",
+    "@types/styled-components": "^5.1.29",
     "cross-env": "^7.0.3",
     "eslint": "^8.28.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -50,15 +52,16 @@
     "eslint-plugin-sort-destructure-keys": "^1.4.0",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-typescript-sort-keys": "^2.1.0",
-    "react-scripts": "^5.0.1",
-    "sass": "^1.62.1",
-    "typescript-plugin-css-modules": "^5.0.1"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   },
   "browserslist": {
     "production": [

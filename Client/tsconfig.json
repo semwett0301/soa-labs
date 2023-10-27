@@ -18,12 +18,10 @@
       "components": ["components"],
       "hooks": ["hooks"],
       "configs": ["configs"],
-      "panels": ["panels"],
       "types": ["types"],
       "utils": ["utils"],
       "modals": ["modals"],
       "containers": ["containers"],
-      "api": ["api"]
     }
   },
   "exclude": ["src/externalContent/*.*", "node_modules"],
