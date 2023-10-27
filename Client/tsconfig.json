@@ -50,6 +50,9 @@
       ],
       "slices": [
         "slices"
+      ],
+      "context": [
+        "context"
       ]
     }
   },

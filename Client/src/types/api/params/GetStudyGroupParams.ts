@@ -1,11 +1,13 @@
-export type GetStudyGroupParams = {
-  page?: number;
-  pageSize?: number;
+export interface GetStudyGroupFilters {
   name?: string;
-  creationDateFrom?: Date;
-  creationDateTo?: Date;
+  creationDate?: Date;
   studentsCount?: number;
   formOfEducation?: string;
   semesterEnum?: string;
+}
+
+export interface GetStudyGroupParams extends GetStudyGroupFilters {
+  page?: number;
+  pageSize?: number;
   sort?: Array<string>;
-};
+}

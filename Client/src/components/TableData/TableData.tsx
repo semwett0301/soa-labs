@@ -1,8 +1,12 @@
-import { Button, Pagination, Select, Table } from "antd";
+import { Button, Input, Pagination, Select, Table } from "antd";
+import { FilterDropdownProps } from "antd/es/table/interface";
+import { FilterDropdown } from "atom";
 import { PAGE_SIZE } from "configs";
 import React, { Dispatch, FC, Key, useCallback, useState } from "react";
 import { CustomTableColumns, FormName, StudyGroup } from "types";
 import { studyGroupToColumn } from "utils";
+
+import { GetStudyGroupFilters } from "../../types/api/params/GetStudyGroupParams";
 
 interface Props {
   content?: StudyGroup[];
@@ -13,6 +17,7 @@ interface Props {
   onDelete: (id: Key) => Promise<void>;
   onExpell: (id: Key) => Promise<void>;
   onUpdateForm: (id: Key, formName: FormName) => Promise<void>;
+  onFilter: Dispatch<(prevState: GetStudyGroupFilters) => GetStudyGroupFilters>;
 }
 
 export const TableData: FC<Props> = ({
@@ -20,6 +25,7 @@ export const TableData: FC<Props> = ({
   currentPage,
   onDelete,
   onExpell,
+  onFilter,
   onUpdateForm,
   setCurrentPage,
   setSort,
@@ -54,9 +60,21 @@ export const TableData: FC<Props> = ({
           } else {
             sortSetter(sorter.field as Key, sorter.order);
           }
+
+          const resFilters = {
+            ...filters,
+          };
+
+          Object.keys(resFilters).forEach((key) => {
+            if (!resFilters[key]) resFilters[key] = undefined;
+          });
+
+          onFilter((prevState) => ({
+            ...prevState,
+            ...resFilters,
+          }));
         }}
         pagination={false}
-        size="small"
         dataSource={studyGroupToColumn(content ?? [])}
         columns={[
           {
@@ -68,30 +86,35 @@ export const TableData: FC<Props> = ({
           {
             dataIndex: "name",
             ellipsis: true,
+            filterDropdown: FilterDropdown,
             sorter: true,
             title: "Название",
           },
           {
             dataIndex: "creationDate",
             ellipsis: true,
+            filterDropdown: FilterDropdown,
             sorter: true,
             title: "Дата создания",
           },
           {
             dataIndex: "studentsCount",
             ellipsis: true,
+            filterDropdown: FilterDropdown,
             sorter: true,
             title: "Кол-во студентов",
           },
           {
             dataIndex: "formOfEducation",
             ellipsis: true,
+            filterDropdown: FilterDropdown,
             sorter: true,
             title: "Вид обучения",
           },
           {
             dataIndex: "semesterEnum",
             ellipsis: true,
+            filterDropdown: FilterDropdown,
             sorter: true,
             title: "Номер семестра",
           },
