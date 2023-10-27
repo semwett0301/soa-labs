@@ -7,7 +7,10 @@ import { GetStudyGroupParams } from "../types/api/params/GetStudyGroupParams";
 export const studyGroupApi = createApi({
   baseQuery: BASE_GROUP_API,
   endpoints: (builder) => ({
-    getStudyGroups: builder.query<StudyGroupsResponse, GetStudyGroupParams>({
+    getStudyGroups: builder.query<
+      StudyGroupsResponse | undefined,
+      GetStudyGroupParams
+    >({
       query: (params) => ({
         method: "GET",
         params,

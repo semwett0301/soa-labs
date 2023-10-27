@@ -5,6 +5,8 @@ export const LoadWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
+  flex-direction: column;
+
   flex-grow: 1;
 
   width: 100%;

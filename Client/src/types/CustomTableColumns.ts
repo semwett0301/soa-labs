@@ -7,6 +7,7 @@ export interface CustomTableColumns
   > {
   formOfEducation?: string;
   groupAdminName?: string;
-  semester?: number;
+  semesterEnum?: number;
   creationDate?: string;
+  key: number;
 }

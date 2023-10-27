@@ -8,7 +8,7 @@ import { semesterEnumToNumber } from "./semesterEnumToNumber";
 export const studyGroupToColumn: (
   groups: StudyGroup[]
 ) => CustomTableColumns[] = (groups) => {
-  return groups.map((group) => {
+  return groups.map((group, idx) => {
     const resGroup = omit(
       ["formOfEducation", "groupAdmin", "semesterEnum"],
       group
@@ -16,10 +16,11 @@ export const studyGroupToColumn: (
 
     return {
       ...resGroup,
-      creationDate: formatDateToRussianDate(group.creationDate),
+      creationDate: formatDateToRussianDate(new Date(group.creationDate)),
       formOfEducation: formOfEducationToString[group.formOfEducation],
       groupAdminName: group.groupAdmin.name,
-      semester: semesterEnumToNumber[group.semesterEnum],
+      key: idx,
+      semesterEnum: semesterEnumToNumber[group.semesterEnum],
     };
   });
 };
