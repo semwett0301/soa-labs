@@ -1,34 +1,24 @@
 import { notification as antdBlock } from "antd";
-import { NotificationPlacement } from "antd/es/notification/interface";
-import React, { useCallback, useMemo, useState } from "react";
+import { NotificationContextValue } from "context";
+import React, { useState } from "react";
 
-import { NotificationContextProps } from "../context/notitcation";
-
-export function useNotification(
-  Consumer: React.Consumer<NotificationContextProps>
+export function useNotificationConfig(
+  Consumer: React.Consumer<NotificationContextValue>
 ) {
   const [api, contextHolder] = antdBlock.useNotification();
-  const [value, setValue] = useState<NotificationContextProps>({
-    notification: "",
-  });
+  const [notificationValue, setNotificationValue] = useState<string>("");
 
-  const setNotification = useCallback((notification: string) => {
-    setValue({
-      notification,
-    });
-  }, []);
-
-  const openNotification = (placement: NotificationPlacement) => {
+  const openNotification = (value: string) => {
+    setNotificationValue(value);
     api.info({
       message: <Consumer>{({ notification }) => notification}</Consumer>,
-      placement,
+      placement: "bottomRight",
     });
   };
 
   return {
     contextHolder,
+    notificationValue,
     openNotification,
-    setNotification,
-    value,
   };
 }

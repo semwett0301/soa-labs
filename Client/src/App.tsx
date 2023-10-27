@@ -8,7 +8,7 @@ import {
   MainContainer,
   TableSection,
 } from "containers";
-import { useNotification } from "hooks";
+import { useNotificationConfig } from "hooks";
 import React, {
   FC,
   Key,
@@ -58,8 +58,8 @@ export const App: FC = () => {
   const [deleteAll, deleteAllMutatation] = useDeleteStudyGroupMutation();
   const [changeForm, changeFormMutation] = usePostChangeEduFormMutation();
 
-  const { contextHolder, openNotification, setNotification, value } =
-    useNotification(NotificationConsumer);
+  const { contextHolder, notificationValue, openNotification } =
+    useNotificationConfig(NotificationConsumer);
 
   const onExpel = useCallback<(id: Key) => Promise<void>>(
     async (id) => {
@@ -124,13 +124,17 @@ export const App: FC = () => {
 
   useEffect(() => {
     if (isError) {
-      setNotification("Некорректные данные");
-      openNotification("bottomRight");
+      openNotification("Некорректные данные");
     }
   }, [isError]);
 
   return (
-    <NotificationProvider value={value}>
+    <NotificationProvider
+      value={{
+        notification: notificationValue,
+        openNotification,
+      }}
+    >
       {contextHolder}
       <Styles />
       <Header />

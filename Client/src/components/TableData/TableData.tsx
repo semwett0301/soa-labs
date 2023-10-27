@@ -1,12 +1,33 @@
 import { Button, Input, Pagination, Select, Table } from "antd";
-import { FilterDropdownProps } from "antd/es/table/interface";
+import {
+  FilterDropdownProps,
+  FilterValue,
+  SorterResult,
+  TableCurrentDataSource,
+  TablePaginationConfig,
+} from "antd/es/table/interface";
 import { FilterDropdown } from "atom";
 import { PAGE_SIZE } from "configs";
-import React, { Dispatch, FC, Key, useCallback, useState } from "react";
+import { isValid, parse } from "date-fns";
+import { useNotificationConfig } from "hooks";
+import React, {
+  Dispatch,
+  FC,
+  Key,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { CustomTableColumns, FormName, StudyGroup } from "types";
 import { studyGroupToColumn } from "utils";
 
+import {
+  NotificationConsumer,
+  NotificationContext,
+} from "../../context/notitcation";
 import { GetStudyGroupFilters } from "../../types/api/params/GetStudyGroupParams";
+import { formNameToFormOfEducation } from "../../utils/formOfEducationToFormName";
+import { numberToSemesterEnum } from "../../utils/semesterEnumToNumber";
 
 interface Props {
   content?: StudyGroup[];
@@ -33,6 +54,8 @@ export const TableData: FC<Props> = ({
 }) => {
   const [editableRow, setEditableRow] = useState<number | null>(null);
 
+  const { openNotification } = useContext(NotificationContext);
+
   const sortSetter = useCallback(
     (id: Key, order: "ascend" | "descend") => {
       let resultSort: string[] = [];
@@ -49,31 +72,87 @@ export const TableData: FC<Props> = ({
     [setSort]
   );
 
+  const onChange = useCallback<
+    (
+      pagination: TablePaginationConfig,
+      filters: Record<string, FilterValue | null>,
+      sorter:
+        | SorterResult<CustomTableColumns>
+        | SorterResult<CustomTableColumns>[],
+      extra: TableCurrentDataSource<CustomTableColumns>
+    ) => void
+  >(
+    (pagination, filters, sorter, extra) => {
+      if (Array.isArray(sorter)) {
+        sorter.forEach((sortItem) => {
+          sortSetter(sortItem.field as Key, sortItem.order);
+        });
+      } else {
+        sortSetter(sorter.field as Key, sorter.order);
+      }
+
+      const resFilters = {
+        ...filters,
+      };
+
+      Object.keys(resFilters).forEach((key) => {
+        if (!resFilters[key]) {
+          resFilters[key] = undefined;
+        } else if (key === "creationDate") {
+          const parsedDate = parse(
+            resFilters[key][0] as unknown as string,
+            "dd.MM.yyyy",
+            new Date()
+          );
+
+          if (!isValid(parsedDate)) {
+            const message = "Дата должна быть в формате dd.mm.YYYY";
+
+            openNotification(message);
+            resFilters[key] = undefined;
+          } else {
+            resFilters[key] = parsedDate.toString() as unknown as FilterValue;
+          }
+        } else if (key === "formOfEducation") {
+          if (
+            Object.values(FormName).includes(resFilters[key][0] as FormName)
+          ) {
+            const formName = resFilters[key][0] as FormName;
+            resFilters[key] = formNameToFormOfEducation[
+              formName
+            ].toString() as unknown as FilterValue;
+          } else {
+            const message = "Значение должно совпадать с одним из вариантов";
+
+            openNotification(message);
+            resFilters[key] = undefined;
+          }
+        } else if (key === "semesterEnum") {
+          const number = Number(resFilters[key][0] as string);
+
+          if (number === 3 || number === 5 || number === 6) {
+            resFilters[key] = numberToSemesterEnum[
+              number
+            ] as unknown as FilterValue;
+          } else {
+            openNotification("Семестр может быть 3, 5 и 6");
+            resFilters[key] = undefined;
+          }
+        }
+      });
+
+      onFilter((prevState) => ({
+        ...prevState,
+        ...resFilters,
+      }));
+    },
+    [onFilter, openNotification, sortSetter]
+  );
+
   return (
     <>
       <Table<CustomTableColumns>
-        onChange={(pagination, filters, sorter) => {
-          if (Array.isArray(sorter)) {
-            sorter.forEach((sortItem) => {
-              sortSetter(sortItem.field as Key, sortItem.order);
-            });
-          } else {
-            sortSetter(sorter.field as Key, sorter.order);
-          }
-
-          const resFilters = {
-            ...filters,
-          };
-
-          Object.keys(resFilters).forEach((key) => {
-            if (!resFilters[key]) resFilters[key] = undefined;
-          });
-
-          onFilter((prevState) => ({
-            ...prevState,
-            ...resFilters,
-          }));
-        }}
+        onChange={onChange}
         pagination={false}
         dataSource={studyGroupToColumn(content ?? [])}
         columns={[
