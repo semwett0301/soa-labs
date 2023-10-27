@@ -1,4 +1,3 @@
-export * from "./Coordinates";
 export * from "./GroupCountByNameResponse";
 export * from "./Person";
 export * from "./StudyGroup";

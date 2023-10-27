@@ -10,6 +10,9 @@ export const Styles = createGlobalStyle`
   }
 
   body {
+    display: flex;
+    flex-direction: column;
+    
     margin: 0;
     padding: 0;
 
@@ -20,5 +23,10 @@ export const Styles = createGlobalStyle`
   #root {
     display: flex;
     flex-direction: column;
+    
+    flex-grow: 1;
+    
+    width: 100vw;
+    min-height: 100vh;
   }
 `;

@@ -9,7 +9,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Coordinates } from "./Coordinates";
 import { Person } from "./Person";
 /**
  *
@@ -23,12 +22,6 @@ export interface StudyGroupRequest {
    * @memberof StudyGroupRequest
    */
   name?: string;
-  /**
-   *
-   * @type {Coordinates}
-   * @memberof StudyGroupRequest
-   */
-  coordinates?: Coordinates;
   /**
    *
    * @type {number}

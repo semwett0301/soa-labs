@@ -24,6 +24,7 @@
     "sort-destructure-keys"
   ],
   "rules": {
+    "no-param-reassign": "off",
     "react/jsx-props-no-spreading": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
@@ -37,7 +38,7 @@
     "import/no-duplicates": "error",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "import/no-cycle": "error",
+    "import/no-cycle": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-nested-ternary": "off",
     "jsx-a11y/no-autofocus": "off",

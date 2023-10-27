@@ -3,7 +3,9 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "target": "es5",
-    "lib": ["DOM"],
+    "lib": [
+      "DOM"
+    ],
     "allowJs": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
@@ -13,19 +15,50 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "paths": {
-      "atom": ["atom"],
-      "assets": ["assets"],
-      "components": ["components"],
-      "hooks": ["hooks"],
-      "configs": ["configs"],
-      "types": ["types"],
-      "utils": ["utils"],
-      "modals": ["modals"],
-      "containers": ["containers"],
+      "atom": [
+        "atom"
+      ],
+      "assets": [
+        "assets"
+      ],
+      "components": [
+        "components"
+      ],
+      "hooks": [
+        "hooks"
+      ],
+      "configs": [
+        "configs"
+      ],
+      "types": [
+        "types"
+      ],
+      "utils": [
+        "utils"
+      ],
+      "modals": [
+        "modals"
+      ],
+      "containers": [
+        "containers"
+      ],
+      "store": [
+        "store"
+      ],
+      "services": [
+        "services"
+      ],
+      "slices": [
+        "slices"
+      ]
     }
   },
-  "exclude": ["src/externalContent/*.*", "node_modules"],
-  "include": ["src",
+  "exclude": [
+    "src/externalContent/*.*",
+    "node_modules"
+  ],
+  "include": [
+    "src",
     "declaration.d.ts"
   ]
 }
