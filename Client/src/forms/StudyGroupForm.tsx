@@ -38,7 +38,7 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
       name="studyGroupCreate"
       initialValues={{
         ...initialValues,
-        groupAdmin: initialValues?.groupAdmin.id,
+        groupAdmin: initialValues?.groupAdmin?.id,
       }}
       onFinish={(formData) => {
         const admin: Person = data.filter(

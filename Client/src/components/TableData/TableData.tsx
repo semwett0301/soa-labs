@@ -32,6 +32,7 @@ import {
 } from "utils";
 
 import { formatDateToEngDate } from "../../utils/date/formatDateToEngDate";
+import { TableWrapper } from "./ui/TableWrapper";
 
 interface Props {
   content?: StudyGroup[];
@@ -156,7 +157,7 @@ export const TableData: FC<Props> = ({
   );
 
   return (
-    <>
+    <TableWrapper>
       <Table<CustomTableColumns>
         onChange={onChange}
         pagination={false}
@@ -297,6 +298,6 @@ export const TableData: FC<Props> = ({
         }}
         hideOnSinglePage
       />
-    </>
+    </TableWrapper>
   );
 };
