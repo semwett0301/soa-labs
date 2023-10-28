@@ -2,7 +2,6 @@ package com.example.studygroup.service
 
 import com.example.studygroup.dto.GroupCountByNameResponse
 import com.example.studygroup.dto.StudyGroupCreationRequest
-import com.example.studygroup.entity.Coordinates
 import com.example.studygroup.entity.FormOfEducation
 import com.example.studygroup.entity.Semester
 import com.example.studygroup.entity.StudyGroup
@@ -24,10 +23,6 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
     override fun getAllStudyGroups(
         pageable: Pageable,
         name: String?,
-        coordinateXFrom: Int?,
-        coordinateXTo: Int?,
-        coordinateYFrom: Int?,
-        coordinateYTo: Int?,
         creationDateFrom: LocalDateTime?,
         creationDateTo: LocalDateTime?,
         studentsCount: Int?,
@@ -41,22 +36,6 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
                 predicates.add(cb.like(root.get("name"), "%$name%"))
             }
 
-            val coordinatesJoin = root.join<StudyGroup, Coordinates>("coordinates")
-            coordinateXFrom?.let {
-                predicates.add(cb.greaterThanOrEqualTo(coordinatesJoin.get("x"), it))
-            }
-
-            coordinateXTo?.let {
-                predicates.add(cb.lessThanOrEqualTo(coordinatesJoin.get("x"), it))
-            }
-
-            coordinateYFrom?.let {
-                predicates.add(cb.greaterThanOrEqualTo(coordinatesJoin.get("y"), it))
-            }
-
-            coordinateYTo?.let {
-                predicates.add(cb.lessThanOrEqualTo(coordinatesJoin.get("y"), it))
-            }
             creationDateFrom?.let { predicates.add(cb.greaterThanOrEqualTo(root.get("creationDate"), it)) }
             creationDateTo?.let { predicates.add(cb.lessThan(root.get("creationDate"), it)) }
 
@@ -79,8 +58,6 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
         val findById = repo.findById(id).orElseThrow { EntityNotFoundException("group with Id:$id not found ") }
         findById.apply {
             name = updatedStudyGroup.name
-            coordinates.x = updatedStudyGroup.coordinates.x
-            coordinates.y = updatedStudyGroup.coordinates.y
             studentsCount = updatedStudyGroup.studentsCount
             formOfEducation = updatedStudyGroup.formOfEducation
             semesterEnum = updatedStudyGroup.semesterEnum

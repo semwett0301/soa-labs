@@ -25,10 +25,6 @@ class GroupsController(val groupService: GroupService) {
         @Valid @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
         @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") pageSize: Int,
         @Valid @RequestParam(value = "name", required = false) name: String?,
-        @Valid @RequestParam(value = "coordinateXFrom", required = false) coordinateXFrom: Int?,
-        @Valid @RequestParam(value = "coordinateXTo", required = false) coordinateXTo: Int?,
-        @Valid @RequestParam(value = "coordinateYFrom", required = false) coordinateYFrom: Int?,
-        @Valid @RequestParam(value = "coordinateYTo", required = false) coordinateYTo: Int?,
         @Valid @RequestParam(
             value = "creationDateFrom",
             required = false
@@ -46,10 +42,6 @@ class GroupsController(val groupService: GroupService) {
         return groupService.getAllStudyGroups(
             pageable = pageRequest,
             name = name,
-            coordinateXFrom = coordinateXFrom,
-            coordinateXTo = coordinateXTo,
-            coordinateYFrom = coordinateYFrom,
-            coordinateYTo = coordinateYTo,
             creationDateFrom = creationDateFrom,
             creationDateTo = creationDateTo,
             studentsCount = studentsCount,
