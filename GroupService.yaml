@@ -7,6 +7,18 @@ servers:
   - url: 'http://localhost:8080/api/v1'
     description: "DEV SERVER"
 paths:
+  /persons:
+    get:
+      summary: Get all persons
+      tags:
+        - Persons
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonResponse'
   /groups:
     get:
       summary: Get all study groups
@@ -27,27 +39,7 @@ paths:
           in: query
           schema:
             type: string
-        - name: coordinateXFrom
-          in: query
-          schema:
-            type: integer
-        - name: coordinateXTo
-          in: query
-          schema:
-            type: integer
-        - name: coordinateYFrom
-          in: query
-          schema:
-            type: integer
-        - name: coordinateYTo
-          in: query
-          schema:
-            type: integer
-        - name: creationDateFrom
-          in: query
-          schema:
-            type: string
-        - name: creationDateTo
+        - name: creationDate
           in: query
           schema:
             type: string
@@ -84,16 +76,12 @@ paths:
                 - +id
                 - +name
                 - +creationDate
-                - +coordinatesX
-                - +coordinatesY
                 - +studentsCount
                 - +formOfEducation
                 - +semesterEnum
                 - -id
                 - -name
                 - -creationDate
-                - -coordinatesX
-                - -coordinatesY
                 - -studentsCount
                 - -formOfEducation
                 - -semesterEnum
@@ -235,8 +223,6 @@ components:
           type: integer
         name:
           type: string
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
         creationDate:
           type: string
           format: date-time
@@ -256,13 +242,6 @@ components:
             - SIXTH
         groupAdmin:
           $ref: '#/components/schemas/Person'
-    Coordinates:
-      type: object
-      properties:
-        x:
-          type: integer
-        y:
-          type: integer
     Person:
       type: object
       properties:
@@ -277,6 +256,10 @@ components:
           type: number
         passportID:
           type: string
+    PersonResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Person'
     GroupCountByNameResponse:
       type: object
       properties:
@@ -289,8 +272,6 @@ components:
       properties:
         name:
           type: string
-        coordinates:
-          $ref: '#/components/schemas/Coordinates'
         studentsCount:
           type: integer
         formOfEducation:
