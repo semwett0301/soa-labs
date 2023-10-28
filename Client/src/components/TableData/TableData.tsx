@@ -31,6 +31,8 @@ import {
   studyGroupToColumn,
 } from "utils";
 
+import { formatDateToEngDate } from "../../utils/date/formatDateToEngDate";
+
 interface Props {
   content?: StudyGroup[];
   totalPages?: number;
@@ -113,7 +115,9 @@ export const TableData: FC<Props> = ({
             openNotification(message);
             resFilters[key] = undefined;
           } else {
-            resFilters[key] = parsedDate.toString() as unknown as FilterValue;
+            resFilters[key] = formatDateToEngDate(
+              parsedDate
+            ) as unknown as FilterValue;
           }
         } else if (key === "formOfEducation") {
           if (
