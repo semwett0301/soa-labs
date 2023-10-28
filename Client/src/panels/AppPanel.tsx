@@ -117,7 +117,7 @@ export const AppPanel: FC = () => {
 
   useEffect(() => {
     if (isError) {
-      openNotification("Некорректные данные");
+      openNotification("Ошибка при запросе на сервер");
     }
   }, [isError]);
 

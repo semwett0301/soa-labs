@@ -3,8 +3,16 @@ import { useForm } from "antd/es/form/Form";
 import { NotificationContext } from "context";
 import React, { FC, useContext, useEffect } from "react";
 import { useGetPersonsQuery } from "services";
-import { StudyGroupRequest, StudyGroupRequestFormOfEducationEnum } from "types";
+import {
+  Person,
+  StudyGroupRequest,
+  StudyGroupRequestFormOfEducationEnum,
+} from "types";
 import { formOfEducationToFormName, numberToSemesterEnum } from "utils";
+
+export type StudyGroupFormData = Omit<StudyGroupRequest, "groupAdmin"> & {
+  groupAdmin: number;
+};
 
 interface Props {
   initialValues?: StudyGroupRequest;
@@ -12,7 +20,7 @@ interface Props {
 }
 
 export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
-  const [form] = useForm<StudyGroupRequest>();
+  const [form] = useForm<StudyGroupFormData>();
 
   const { data, isError, isLoading } = useGetPersonsQuery(null);
 
@@ -28,8 +36,20 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
     <Form
       form={form}
       name="studyGroupCreate"
-      initialValues={initialValues}
-      onFinish={onFinish}
+      initialValues={{
+        ...initialValues,
+        groupAdmin: initialValues?.groupAdmin.id,
+      }}
+      onFinish={(formData) => {
+        const admin: Person = data.filter(
+          (person) => person.id === formData.groupAdmin
+        )[0];
+
+        onFinish({
+          ...formData,
+          groupAdmin: admin,
+        });
+      }}
       scrollToFirstError
     >
       <Form.Item
@@ -117,7 +137,7 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
               value: numberToSemesterEnum[5],
             },
             {
-              label: 5,
+              label: 6,
               value: numberToSemesterEnum[6],
             },
           ]}
@@ -137,10 +157,10 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
           loading={isLoading || isError}
           disabled={isLoading || isError}
           options={
-            data?.content
-              ? data.content.map((person) => ({
+            data
+              ? data.map((person) => ({
                   label: person.name,
-                  value: person,
+                  value: person.id,
                 }))
               : []
           }

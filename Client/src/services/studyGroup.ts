@@ -4,7 +4,7 @@ import { Key } from "react";
 import {
   GetStudyGroupParams,
   GroupCountByNameResponse,
-  PersonResponse,
+  Person,
   PutRequest,
   StudyGroup,
   StudyGroupRequest,
@@ -22,7 +22,7 @@ export const studyGroupApi = createApi({
         url: `/groups/${id}`,
       }),
     }),
-    getPersons: builder.query<PersonResponse | undefined, null>({
+    getPersons: builder.query<Person[] | undefined, null>({
       query: () => ({
         method: "GET",
         url: "/persons",

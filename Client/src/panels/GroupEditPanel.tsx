@@ -24,8 +24,10 @@ export const GroupEditPanel: FC = () => {
         ...data,
         id,
       });
+
+      navigate("/");
     },
-    [id, putStudyGroup]
+    [id, navigate, putStudyGroup]
   );
 
   useEffect(() => {

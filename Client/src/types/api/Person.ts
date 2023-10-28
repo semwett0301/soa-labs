@@ -20,6 +20,8 @@ export interface Person {
    * @type {string}
    * @memberof Person
    */
+  id?: number;
+
   name?: string;
   /**
    *

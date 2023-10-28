@@ -5,5 +5,5 @@ export const BASE_GROUP_API = fetchBaseQuery({
 });
 
 export const BASE_ISU_API = fetchBaseQuery({
-  baseUrl: "https://localhost:444/api/v1/isu",
+  baseUrl: "https://localhost:8081/api/v1/isu",
 });

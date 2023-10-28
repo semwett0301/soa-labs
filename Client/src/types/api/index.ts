@@ -1,7 +1,6 @@
 export * from "./GroupCountByNameResponse";
 export * from "./params";
 export * from "./Person";
-export * from "./PersonResponse";
 export * from "./PutRequest";
 export * from "./StudyGroup";
 export * from "./StudyGroupRequest";
