@@ -7,6 +7,7 @@ import com.example.studygroup.entity.StudyGroup
 import com.example.studygroup.service.GroupService
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.validation.Valid
+import jakarta.validation.constraints.Min
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest.*
 import org.springframework.data.domain.Sort.*
@@ -24,14 +25,14 @@ class GroupsController(val groupService: GroupService) {
     @ResponseBody
     @CrossOrigin("*")
     fun getAllStudyGroups(
-        @Valid @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
-        @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") pageSize: Int,
+        @Valid @RequestParam(value = "page", required = false, defaultValue = "0") @Min(0)  page: Int,
+        @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") @Min(1) pageSize: Int,
         @Valid @RequestParam(value = "name", required = false) name: String?,
         @Valid @RequestParam(value = "creationDate", required = false)
         @JsonFormat(pattern = "yyyy-MM-dd")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         creationDateEq: LocalDate?,
-        @Valid @RequestParam(value = "studentsCount", required = false) studentsCount: Int?,
+        @Valid @RequestParam(value = "studentsCount", required = false) @Min(0) studentsCount: Int?,
         @Valid @RequestParam(value = "formOfEducation", required = false) formOfEducation: FormOfEducation?,
         @Valid @RequestParam(value = "semesterEnum", required = false) semesterEnum: Semester?,
         @Valid @RequestParam(value = "sort", required = false) sort: List<String>?
