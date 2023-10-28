@@ -148,7 +148,7 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button size="large" type="primary" htmlType="submit">
-          {initialValues ? "Обновить" : "Создать"}
+          {initialValues ? "Редактировать" : "Создать"}
         </Button>
       </Form.Item>
     </Form>
