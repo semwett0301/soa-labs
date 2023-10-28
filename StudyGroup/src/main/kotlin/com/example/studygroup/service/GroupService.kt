@@ -7,7 +7,7 @@ import com.example.studygroup.entity.Semester
 import com.example.studygroup.entity.StudyGroup
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 
 interface GroupService {
@@ -15,18 +15,13 @@ interface GroupService {
     fun getAllStudyGroups(
         pageable: Pageable,
         name: String?,
-//        coordinateXFrom: Int?,
-//        coordinateXTo: Int?,
-//        coordinateYFrom: Int?,
-//        coordinateYTo: Int?,
-        creationDateFrom: LocalDateTime?,
-        creationDateTo: LocalDateTime?,
         studentsCount: Int?,
         formOfEducation: FormOfEducation?,
         semesterEnum: Semester?,
+        creationDateEq: LocalDate?,
     ): Page<StudyGroup>
 
-    fun createGroup(studyGroup: StudyGroupCreationRequest)
+    fun createGroup(studyGroup: StudyGroupCreationRequest): StudyGroup
     fun getById(id: Int): StudyGroup
     fun updateById(id: Int, updatedStudyGroup: StudyGroupCreationRequest): StudyGroup
     fun deleteById(id: Int): Unit

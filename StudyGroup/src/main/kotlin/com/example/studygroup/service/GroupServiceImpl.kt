@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -23,11 +24,10 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
     override fun getAllStudyGroups(
         pageable: Pageable,
         name: String?,
-        creationDateFrom: LocalDateTime?,
-        creationDateTo: LocalDateTime?,
         studentsCount: Int?,
         formOfEducation: FormOfEducation?,
-        semesterEnum: Semester?
+        semesterEnum: Semester?,
+        creationDateEq: LocalDate?
     ): Page<StudyGroup> {
         val spec = Specification<StudyGroup> { root, _, cb ->
             val predicates = mutableListOf<Predicate>()
@@ -35,9 +35,7 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
             if (!name.isNullOrBlank()) {
                 predicates.add(cb.like(root.get("name"), "%$name%"))
             }
-
-            creationDateFrom?.let { predicates.add(cb.greaterThanOrEqualTo(root.get("creationDate"), it)) }
-            creationDateTo?.let { predicates.add(cb.lessThan(root.get("creationDate"), it)) }
+            creationDateEq?.let { predicates.add(cb.equal(root.get<LocalDate>("creationDate"),it)) }
 
             formOfEducation?.let { predicates.add(cb.equal(root.get<FormOfEducation>("formOfEducation"), it)) }
             semesterEnum?.let { predicates.add(cb.equal(root.get<Semester>("semesterEnum"), it)) }
@@ -48,9 +46,9 @@ class GroupServiceImpl(val repo: StudyGroupRepository) : GroupService {
         return repo.findAll(spec, pageable)
     }
 
-    override fun createGroup(studyGroup: StudyGroupCreationRequest) {
+    override fun createGroup(studyGroup: StudyGroupCreationRequest): StudyGroup {
         val newStudyGroup = studyGroup.toEntity()
-        repo.save(newStudyGroup)
+        return repo.save(newStudyGroup)
     }
 
     override fun getById(id: Int): StudyGroup = repo.findById(id).orElseThrow { EntityNotFoundException("group with Id:$id not found ") }

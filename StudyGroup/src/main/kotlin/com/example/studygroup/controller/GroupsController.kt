@@ -10,8 +10,10 @@ import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest.*
 import org.springframework.data.domain.Sort.*
+import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @CrossOrigin("*")
 @RestController
@@ -25,13 +27,10 @@ class GroupsController(val groupService: GroupService) {
         @Valid @RequestParam(value = "page", required = false, defaultValue = "0") page: Int,
         @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") pageSize: Int,
         @Valid @RequestParam(value = "name", required = false) name: String?,
-        @Valid @RequestParam(
-            value = "creationDateFrom",
-            required = false
-        ) @JsonFormat(pattern = "yyyy-MM-dd") creationDateFrom: LocalDateTime?,
-        @Valid @RequestParam(value = "creationDateTo", required = false)
+        @Valid @RequestParam(value = "creationDate", required = false)
         @JsonFormat(pattern = "yyyy-MM-dd")
-        creationDateTo: LocalDateTime?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        creationDateEq: LocalDate?,
         @Valid @RequestParam(value = "studentsCount", required = false) studentsCount: Int?,
         @Valid @RequestParam(value = "formOfEducation", required = false) formOfEducation: FormOfEducation?,
         @Valid @RequestParam(value = "semesterEnum", required = false) semesterEnum: Semester?,
@@ -42,8 +41,7 @@ class GroupsController(val groupService: GroupService) {
         return groupService.getAllStudyGroups(
             pageable = pageRequest,
             name = name,
-            creationDateFrom = creationDateFrom,
-            creationDateTo = creationDateTo,
+            creationDateEq = creationDateEq,
             studentsCount = studentsCount,
             formOfEducation = formOfEducation,
             semesterEnum = semesterEnum
@@ -58,8 +56,8 @@ class GroupsController(val groupService: GroupService) {
     }
 
     @PostMapping
-    fun createGroup(@Valid @RequestBody studyGroup: StudyGroupCreationRequest) {
-        groupService.createGroup(studyGroup)
+    fun createGroup(@Valid @RequestBody studyGroup: StudyGroupCreationRequest): ResponseEntity<StudyGroup> {
+        return ResponseEntity.status(201).body(groupService.createGroup(studyGroup))
     }
 
     @GetMapping("/{id}")
