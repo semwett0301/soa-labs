@@ -53,6 +53,15 @@
       ],
       "context": [
         "context"
+      ],
+      "panels": [
+        "panels"
+      ],
+      "router": [
+        "router"
+      ],
+      "forms": [
+        "forms"
       ]
     }
   },

@@ -10,6 +10,10 @@
  * Do not edit the class manually.
  */
 import { Person } from "./Person";
+import {
+  StudyGroupFormOfEducationEnum,
+  StudyGroupSemesterEnum,
+} from "./StudyGroup";
 /**
  *
  * @export
@@ -33,13 +37,13 @@ export interface StudyGroupRequest {
    * @type {string}
    * @memberof StudyGroupRequest
    */
-  formOfEducation?: StudyGroupRequestFormOfEducationEnum;
+  formOfEducation?: StudyGroupFormOfEducationEnum;
   /**
    *
    * @type {string}
    * @memberof StudyGroupRequest
    */
-  semesterEnum?: StudyGroupRequestSemesterEnumEnum;
+  semesterEnum?: StudyGroupSemesterEnum;
   /**
    *
    * @type {Person}

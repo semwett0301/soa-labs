@@ -1,6 +1,6 @@
-import { Button, Input, Pagination, Select, Table } from "antd";
+import { EditFilled } from "@ant-design/icons";
+import { Button, Pagination, Select, Table } from "antd";
 import {
-  FilterDropdownProps,
   FilterValue,
   SorterResult,
   TableCurrentDataSource,
@@ -8,8 +8,8 @@ import {
 } from "antd/es/table/interface";
 import { FilterDropdown } from "atom";
 import { PAGE_SIZE } from "configs";
+import { NotificationContext } from "context";
 import { isValid, parse } from "date-fns";
-import { useNotificationConfig } from "hooks";
 import React, {
   Dispatch,
   FC,
@@ -18,16 +18,18 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { CustomTableColumns, FormName, StudyGroup } from "types";
-import { studyGroupToColumn } from "utils";
-
+import { Link } from "react-router-dom";
 import {
-  NotificationConsumer,
-  NotificationContext,
-} from "../../context/notitcation";
-import { GetStudyGroupFilters } from "../../types/api/params/GetStudyGroupParams";
-import { formNameToFormOfEducation } from "../../utils/formOfEducationToFormName";
-import { numberToSemesterEnum } from "../../utils/semesterEnumToNumber";
+  CustomTableColumns,
+  FormName,
+  GetStudyGroupFilters,
+  StudyGroup,
+} from "types";
+import {
+  formNameToFormOfEducation,
+  numberToSemesterEnum,
+  studyGroupToColumn,
+} from "utils";
 
 interface Props {
   content?: StudyGroup[];
@@ -161,6 +163,7 @@ export const TableData: FC<Props> = ({
             ellipsis: true,
             sorter: true,
             title: "ID",
+            width: 75,
           },
           {
             dataIndex: "name",
@@ -168,6 +171,7 @@ export const TableData: FC<Props> = ({
             filterDropdown: FilterDropdown,
             sorter: true,
             title: "Название",
+            width: 140,
           },
           {
             dataIndex: "creationDate",
@@ -182,6 +186,7 @@ export const TableData: FC<Props> = ({
             filterDropdown: FilterDropdown,
             sorter: true,
             title: "Кол-во студентов",
+            width: "12%",
           },
           {
             dataIndex: "formOfEducation",
@@ -195,7 +200,8 @@ export const TableData: FC<Props> = ({
             ellipsis: true,
             filterDropdown: FilterDropdown,
             sorter: true,
-            title: "Номер семестра",
+            title: "Семестр",
+            width: 130,
           },
           {
             dataIndex: "groupAdminName",
@@ -204,19 +210,16 @@ export const TableData: FC<Props> = ({
             title: "Имя админа",
           },
           {
-            key: "expell",
-            render: (value, record) => (
-              <Button onClick={() => onExpell(record.id)} size="small">
-                Отчислить
-              </Button>
-            ),
-          },
-          {
             key: "delete",
             render: (value, record) => (
               <Button onClick={() => onDelete(record.id)} danger size="small">
                 Удалить
               </Button>
+            ),
+            title: (
+              <Link to="/add">
+                <Button>Создать</Button>
+              </Link>
             ),
           },
           {
@@ -257,6 +260,24 @@ export const TableData: FC<Props> = ({
                   />
                 )}
               </span>
+            ),
+          },
+          {
+            align: "center",
+            key: "edit",
+            render: (value, record) => (
+              <Link to={`/edit/${record.id}`}>
+                <EditFilled />
+              </Link>
+            ),
+            width: 48,
+          },
+          {
+            key: "expell",
+            render: (value, record) => (
+              <Button ghost onClick={() => onExpell(record.id)} size="small">
+                Отчислить
+              </Button>
             ),
           },
         ]}

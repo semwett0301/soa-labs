@@ -53,7 +53,7 @@ export interface StudyGroup {
    * @type {string}
    * @memberof StudyGroup
    */
-  semesterEnum?: StudyGroupSemesterEnumEnum;
+  semesterEnum?: StudyGroupSemesterEnum;
   /**
    *
    * @type {Person}
@@ -76,7 +76,7 @@ export enum StudyGroupFormOfEducationEnum {
  * @export
  * @enum {string}
  */
-export enum StudyGroupSemesterEnumEnum {
+export enum StudyGroupSemesterEnum {
   THIRD = "THIRD",
   FIFTH = "FIFTH",
   SIXTH = "SIXTH",

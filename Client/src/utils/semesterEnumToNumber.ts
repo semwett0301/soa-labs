@@ -1,17 +1,17 @@
-import { StudyGroupSemesterEnumEnum } from "types";
+import { StudyGroupSemesterEnum } from "types";
 
 export const semesterEnumToNumber: {
-  [key in StudyGroupSemesterEnumEnum]: number;
+  [key in StudyGroupSemesterEnum]: number;
 } = {
-  [StudyGroupSemesterEnumEnum.THIRD]: 3,
-  [StudyGroupSemesterEnumEnum.FIFTH]: 5,
-  [StudyGroupSemesterEnumEnum.SIXTH]: 6,
+  [StudyGroupSemesterEnum.THIRD]: 3,
+  [StudyGroupSemesterEnum.FIFTH]: 5,
+  [StudyGroupSemesterEnum.SIXTH]: 6,
 };
 
 export const numberToSemesterEnum: {
-  [key: number]: StudyGroupSemesterEnumEnum;
+  [key: number]: StudyGroupSemesterEnum;
 } = {
-  3: StudyGroupSemesterEnumEnum.THIRD,
-  5: StudyGroupSemesterEnumEnum.FIFTH,
-  6: StudyGroupSemesterEnumEnum.SIXTH,
+  3: StudyGroupSemesterEnum.THIRD,
+  5: StudyGroupSemesterEnum.FIFTH,
+  6: StudyGroupSemesterEnum.SIXTH,
 };

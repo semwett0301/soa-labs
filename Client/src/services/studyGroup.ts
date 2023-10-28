@@ -2,13 +2,15 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { BASE_GROUP_API } from "configs";
 import { Key } from "react";
 import {
+  GetStudyGroupParams,
   GroupCountByNameResponse,
+  PersonResponse,
+  PutRequest,
   StudyGroup,
+  StudyGroupRequest,
   StudyGroupsResponse,
   TagTypes,
 } from "types";
-
-import { GetStudyGroupParams } from "../types/api/params/GetStudyGroupParams";
 
 export const studyGroupApi = createApi({
   baseQuery: BASE_GROUP_API,
@@ -17,6 +19,19 @@ export const studyGroupApi = createApi({
       invalidatesTags: [TagTypes.GROUP],
       query: (id) => ({
         method: "DELETE",
+        url: `/groups/${id}`,
+      }),
+    }),
+    getPersons: builder.query<PersonResponse | undefined, null>({
+      query: () => ({
+        method: "GET",
+        url: "/persons",
+      }),
+    }),
+    getStudyGroupById: builder.query<StudyGroup, string>({
+      providesTags: [TagTypes.GROUP],
+      query: (id) => ({
+        method: "GET",
         url: `/groups/${id}`,
       }),
     }),
@@ -55,6 +70,22 @@ export const studyGroupApi = createApi({
         url: "/groups/group-count-by-name",
       }),
     }),
+    postStudyGroup: builder.mutation<StudyGroup, StudyGroupRequest>({
+      invalidatesTags: [TagTypes.GROUP],
+      query: (body) => ({
+        body,
+        method: "POST",
+        url: "/groups",
+      }),
+    }),
+    putStudyGroup: builder.mutation<null, PutRequest<StudyGroupRequest>>({
+      invalidatesTags: [TagTypes.GROUP],
+      query: (body) => ({
+        body,
+        method: "PUT",
+        url: `/groups/${body.id}`,
+      }),
+    }),
   }),
   reducerPath: "studyGroups",
   tagTypes: [TagTypes.GROUP],
@@ -62,8 +93,12 @@ export const studyGroupApi = createApi({
 
 export const {
   useDeleteStudyGroupMutation,
+  useGetPersonsQuery,
+  useGetStudyGroupByIdQuery,
   useGetStudyGroupMaxAdminQuery,
   useGetStudyGroupMinAdminQuery,
   useGetStudyGroupsCountedByNameQuery,
   useGetStudyGroupsQuery,
+  usePostStudyGroupMutation,
+  usePutStudyGroupMutation,
 } = studyGroupApi;

@@ -10,7 +10,7 @@ export function useNotificationConfig(
 
   const openNotification = (value: string) => {
     setNotificationValue(value);
-    api.info({
+    api.error({
       message: <Consumer>{({ notification }) => notification}</Consumer>,
       placement: "bottomRight",
     });
