@@ -16,7 +16,7 @@ export const isuApi = createApi({
       async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          studyGroupApi.util.resetApiState();
+          dispatch(studyGroupApi.util.resetApiState());
         } catch (e) {
           console.log(e);
         }
@@ -31,7 +31,7 @@ export const isuApi = createApi({
       async onQueryStarted(data, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          studyGroupApi.util.resetApiState();
+          dispatch(studyGroupApi.util.resetApiState());
         } catch (e) {
           console.log(e);
         }
