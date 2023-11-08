@@ -4,7 +4,7 @@ info:
   description: API for managing ISU
   version: 1.0.0
 servers:
-  - url: 'http://localhost:8080/api/v1/isu'
+  - url: 'http://localhost:8762/api/v1/isu'
     description: "DEV SERVER"
 paths:
   /groups/{group-id}/expel-all:

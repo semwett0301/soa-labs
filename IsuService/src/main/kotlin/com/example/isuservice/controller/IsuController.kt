@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/v1/isu/groups")
 class IsuController(
     val isuService: IsuService
 ) {

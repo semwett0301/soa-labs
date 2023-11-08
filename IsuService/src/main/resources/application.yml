@@ -1,19 +1,10 @@
 server:
   port: 0
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.p12
-    key-store-type: PKCS12
-    key-store-password: 12345678
-    key-alias: tomcat
-    key-password: 12345678
+
 spring:
   application:
-    name: isu-service
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: true
+    name: ISU-SERVICE
+
 eureka:
   client:
     service-url:

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/v1/persons")
+@RequestMapping("/persons")
 class PersonsController (val personService: PersonService){
     @GetMapping
     fun getAllPersons(): MutableList<Person> {

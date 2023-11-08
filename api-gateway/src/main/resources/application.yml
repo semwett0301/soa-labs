@@ -1,0 +1,32 @@
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-store-password: 12345678
+    key-alias: tomcat
+    key-password: 12345678
+
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8081/eureka/
+
+zuul:
+  prefix: /api/v1
+  routes:
+    study-group-service:
+      service-id: STUDY-GROUP-SERVICE
+      path: /**
+    isu-service:
+      service-id: ISU-SERVICE
+      path: /isu/**
