@@ -12,6 +12,8 @@ import org.apache.hc.core5.ssl.SSLContexts
 import org.apache.hc.core5.ssl.TrustStrategy
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import org.springframework.cloud.client.loadbalancer.LoadBalanced
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.client.ClientHttpRequestFactory
@@ -22,6 +24,7 @@ import javax.net.ssl.SSLContext
 
 
 @SpringBootApplication
+@EnableDiscoveryClient
 class IsuServiceApplication
 
 fun main(args: Array<String>) {
@@ -33,6 +36,7 @@ class RestConf() {
 
 
     @Bean
+    @LoadBalanced
     fun restTemplate(): RestTemplate {
         val acceptingTrustStrategy =
             TrustStrategy { _: Array<X509Certificate?>?, _: String? -> true }

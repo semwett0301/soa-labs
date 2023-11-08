@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 0
   ssl:
     enabled: true
     key-store: classpath:keystore.p12
@@ -7,3 +7,16 @@ server:
     key-store-password: 12345678
     key-alias: tomcat
     key-password: 12345678
+spring:
+  application:
+    name: isu-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+  instance:
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}

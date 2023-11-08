@@ -1,4 +1,15 @@
+server:
+  port: 0
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
+    key-store-password: 12345678
+    key-alias: tomcat
+    key-password: 12345678
 spring:
+  application:
+    name: study-group
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:study_group}
     username: ${DATABASE_USERNAME:admin}
@@ -7,13 +18,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-
-server:
-  port: 443
-  ssl:
-    enabled: true
-    key-store: classpath:keystore.p12
-    key-store-type: PKCS12
-    key-store-password: 12345678
-    key-alias: tomcat
-    key-password: 12345678
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
+  instance:
+    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}

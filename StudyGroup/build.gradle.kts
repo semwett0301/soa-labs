@@ -19,7 +19,7 @@ java {
 repositories {
     mavenCentral()
 }
-
+extra["springCloudVersion"] = "2022.0.4"
 extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
@@ -32,9 +32,16 @@ dependencies {
     implementation("io.swagger.core.v3:swagger-annotations:2.2.15")
     implementation("org.modelmapper:modelmapper:3.1.1")
     implementation("org.hibernate:hibernate-validator:8.0.1.Final")
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<KotlinCompile> {
