@@ -18,6 +18,7 @@ java {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 extra["springCloudVersion"] = "2022.0.4"
 extra["snippetsDir"] = file("build/generated-snippets")
@@ -34,6 +35,7 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:8.0.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.wildfly:wildfly-ejb-client-bom:30.0.0.Final")
+    implementation("org.example:ejb-interfaces:1.0-SNAPSHOT")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
