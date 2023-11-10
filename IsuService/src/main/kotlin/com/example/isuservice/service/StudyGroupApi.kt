@@ -12,7 +12,7 @@ import java.net.URI
 @Service
 class StudyGroupApi(
     val restTemplate: RestTemplate,
-    val host: String = "https://STUDY-GROUP/",
+    val host: String = "http://study-group-service",
     val objectMapper: ObjectMapper
 ) {
     fun studyGroupById(id: Int): Result =
