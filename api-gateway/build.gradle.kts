@@ -21,12 +21,18 @@ repositories {
 extra["springCloudVersion"] = "2022.0.4"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.cloud:spring-cloud-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-zuul:2.2.10.RELEASE")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation ("org.springframework.boot:spring-boot-starter-webflux")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation ("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    implementation ("org.jetbrains.kotlin:kotlin-reflect")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation ("org.springframework.cloud:spring-cloud-starter-gateway")
+    implementation ("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation ("org.springdoc:springdoc-openapi-starter-webflux-ui:2.0.4")
+    implementation ("org.springdoc:springdoc-openapi-webflux-ui:1.5.10")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+    testImplementation ("org.springframework.boot:spring-boot-starter-test")
+    testImplementation ("io.projectreactor:reactor-test")
 
 }
 

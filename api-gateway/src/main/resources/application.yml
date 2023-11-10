@@ -11,22 +11,22 @@ server:
 spring:
   application:
     name: API-GATEWAY-SERVICE
-
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: ya-pidor
+          uri: lb://STUDY-GROUP-SERVICE
+          predicates:
+            - Path=/api/v1/**
+        - id: dima-pidor
+          uri: lb://ISU-SERVICE
+          predicates:
+            - Path=/api/v1/isu/**
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8081/eureka/
-
-zuul:
-  prefix: /api/v1
-  routes:
-    study-group-service:
-      service-id: STUDY-GROUP-SERVICE
-      path: /**
-    isu-service:
-      service-id: ISU-SERVICE
-      path: /isu/**
+      defaultZone: http://localhost:8081/eureka
