@@ -1,5 +1,5 @@
 rootProject.name = "soa-labs"
-include("StudyGroup")
-include("IsuService")
+include("study-group-service")
+include("isu-service")
 include("api-gateway")
 include("discovery")
