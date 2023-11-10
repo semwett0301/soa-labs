@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 public class TryEjb implements TryInterface {
 
     @Override
-    public void nothing() {
-        System.out.println("A");
+    public String nothing() {
+        return "A";
     }
 }
