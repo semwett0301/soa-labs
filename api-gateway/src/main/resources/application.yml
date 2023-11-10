@@ -16,16 +16,19 @@ spring:
       discovery:
         locator:
           enabled: true
-          lower-case-service-id: true
       routes:
         - id: ya-pidor
           uri: lb://STUDY-GROUP-SERVICE
           predicates:
             - Path=/api/v1/**
+          filters:
+            - StripPrefix=2
         - id: dima-pidor
           uri: lb://ISU-SERVICE
           predicates:
             - Path=/api/v1/isu/**
+          filters:
+            - StripPrefix=3
 eureka:
   client:
     service-url:
