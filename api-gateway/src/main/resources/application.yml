@@ -20,12 +20,14 @@ spring:
       routes:
         - id: ya-pidor
           uri: lb://STUDY-GROUP-SERVICE
+          order: 2
           predicates:
             - Path=/api/v1/**
           filters:
             - StripPrefix=2
         - id: dima-pidor
           uri: lb://ISU-SERVICE
+          order: 1
           predicates:
             - Path=/api/v1/isu/**
           filters:
