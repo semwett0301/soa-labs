@@ -33,6 +33,7 @@ dependencies {
     implementation("org.modelmapper:modelmapper:3.1.1")
     implementation("org.hibernate:hibernate-validator:8.0.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.wildfly:wildfly-ejb-client-bom:30.0.0.Final")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
