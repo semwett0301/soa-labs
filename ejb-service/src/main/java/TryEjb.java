@@ -1,8 +1,3 @@
-package ejb;
-
-
-import interfaces.TryInterface;
-
 import javax.ejb.Stateless;
 
 @Stateless(name = "TryEjb")

@@ -1,8 +1,10 @@
 package com.example.studygroup.configuration
 
-import interfaces.TryInterface
+import TryInterface
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.DependsOn
+import org.wildfly.naming.client.WildFlyInitialContextFactory
 import java.util.*
 import javax.naming.Context
 import javax.naming.InitialContext
@@ -15,20 +17,21 @@ class EjbConfiguration {
     @Throws(NamingException::class)
     fun context(): Context? {
         val jndiProps = Properties()
-        jndiProps["java.naming.factory.initial"] = "org.jboss.naming.remote.client.InitialContextFactory"
-        jndiProps["jboss.naming.client.ejb.context"] = true
-        jndiProps["java.naming.provider.url"] = "http-remoting://localhost:9990"
+        jndiProps[Context.INITIAL_CONTEXT_FACTORY] = WildFlyInitialContextFactory::class.java.name;
+        jndiProps[Context.PROVIDER_URL] = "remote+http://localhost:8080";
         return InitialContext(jndiProps)
     }
 
     @Bean
+    @DependsOn("context")
     @Throws(NamingException::class)
     fun tryStatelessBean(context: Context): TryInterface? {
-        return context.lookup(this.getFullName(TryInterface::class.java)) as TryInterface?
+        val className = TryInterface::class.java.name
+        return context.lookup("ejb:/ejb-service/TryEjb!$className") as TryInterface?
     }
 
     private fun getFullName(classType: Class<*>): String {
-        val moduleName = "ejb-remote-for-spring/"
+        val moduleName = "ejb:/"
         val beanName = classType.simpleName
         val viewClassName = classType.name
         return "$moduleName$beanName!$viewClassName"

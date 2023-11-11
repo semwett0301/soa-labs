@@ -1,5 +1,3 @@
-package interfaces;
-
 import javax.ejb.Remote;
 
 @Remote
