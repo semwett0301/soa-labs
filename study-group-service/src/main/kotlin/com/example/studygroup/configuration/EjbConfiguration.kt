@@ -40,6 +40,14 @@ class EjbConfiguration {
         return context.lookup(this.getFullName(PersonServiceEjb::class.java, PersonService::class.java)) as PersonService?
     }
 
+
+    @Bean
+    @DependsOn("context")
+    @Throws(NamingException::class)
+    fun studyGroupServiceBean(context: Context): StudyGroupService? {
+        return context.lookup(this.getFullName(StudyGroupServiceEjb::class.java, StudyGroupService::class.java)) as StudyGroupService?
+    }
+
     private fun getFullName(classType: Class<*>, interfaceType: Class<*>): String {
         val moduleName = "ejb:/ejb-service"
         val beanName = classType.simpleName

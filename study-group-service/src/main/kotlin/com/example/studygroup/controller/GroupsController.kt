@@ -18,7 +18,7 @@ import java.time.LocalDate
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/groups")
-class GroupsController(val groupService: GroupService) {
+class GroupsController(val groupService: StudyGroupService) {
 
     @GetMapping
     @ResponseBody
