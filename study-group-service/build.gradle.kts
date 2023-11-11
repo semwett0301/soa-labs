@@ -39,7 +39,7 @@ dependencies {
     implementation("org.hibernate:hibernate-validator:8.0.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.wildfly:wildfly-ejb-client-bom:30.0.0.Final")
-    implementation("com.example:ejb-service:4.8")
+    implementation("com.example:ejb-service:4.9")
     implementation("org.slf4j:slf4j-api:1.6.1")
     implementation("org.slf4j:slf4j-simple:1.6.1")
     runtimeOnly("org.postgresql:postgresql")
