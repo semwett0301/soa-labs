@@ -1,7 +1,7 @@
 package com.example.studygroup.controller
 
-import com.example.studygroup.entity.Person
-import com.example.studygroup.service.PersonService
+import entity.Person
+import interfaces.PersonService
 import interfaces.TryInterface
 import org.springframework.context.annotation.DependsOn
 import org.springframework.web.bind.annotation.CrossOrigin
@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RestController
 class PersonsController(val personService: PersonService, val tryInterface: TryInterface) {
     @GetMapping
     fun getAllPersons(): MutableList<Person> {
-        return personService.getAll()
+        if (personService.all != null) {
+            return personService.all
+        }
+
+        return arrayListOf()
     }
 
     @GetMapping("/try")

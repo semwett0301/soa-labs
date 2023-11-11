@@ -1,6 +1,8 @@
 package com.example.studygroup.configuration
 
+import ejbs.PersonServiceEjb
 import ejbs.TryEjb
+import interfaces.PersonService
 import interfaces.TryInterface
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,9 +32,16 @@ class EjbConfiguration {
         return context.lookup(this.getFullName(TryEjb::class.java, TryInterface::class.java)) as TryInterface?
     }
 
+    @Bean
+    @DependsOn("context")
+    @Throws(NamingException::class)
+    fun personServiceBean(context: Context): PersonService? {
+        return context.lookup(this.getFullName(PersonServiceEjb::class.java, PersonService::class.java)) as PersonService?
+    }
+
     private fun getFullName(classType: Class<*>, interfaceType: Class<*>): String {
         val moduleName = "ejb:/ejb-service"
-        val beanName = classType.name
+        val beanName = classType.simpleName
         val viewClassName = interfaceType.name
         return "$moduleName/$beanName!$viewClassName"
     }

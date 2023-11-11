@@ -1,10 +1,10 @@
-package ejbs;
+package beans;
 
 import interfaces.TryInterface;
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 
-@Stateless(name = "ejbs.TryEjb")
+@Stateless(name = "TryEjb")
 @Remote(TryInterface.class)
 public class TryEjb implements TryInterface {
 
