@@ -1,7 +1,8 @@
 package com.example.studygroup.configuration
 
-import ejbs.PersonServiceEjb
-import ejbs.TryEjb
+
+import beans.PersonServiceEjb
+import beans.TryEjb
 import interfaces.PersonService
 import interfaces.TryInterface
 import org.springframework.context.annotation.Bean
