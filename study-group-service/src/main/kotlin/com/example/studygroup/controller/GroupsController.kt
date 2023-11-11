@@ -4,7 +4,6 @@ import com.example.studygroup.dto.StudyGroupCreationRequest
 import com.example.studygroup.entity.FormOfEducation
 import com.example.studygroup.entity.Semester
 import com.example.studygroup.entity.StudyGroup
-import com.example.studygroup.service.GroupService
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min

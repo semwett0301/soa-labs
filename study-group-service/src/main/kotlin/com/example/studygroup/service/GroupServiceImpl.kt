@@ -1,6 +1,5 @@
 package com.example.studygroup.service
 
-import com.example.studygroup.dto.GroupCountByNameResponse
 import com.example.studygroup.dto.StudyGroupCreationRequest
 import com.example.studygroup.entity.FormOfEducation
 import com.example.studygroup.entity.Semester
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Service
 @Transactional
