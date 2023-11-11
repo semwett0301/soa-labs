@@ -6,9 +6,8 @@
 
     <groupId>com.example</groupId>
     <artifactId>ejb-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1</version>
     <name>ejb-service</name>
-    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,14 +18,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.interfaces</groupId>
-            <artifactId>ejb-interfaces</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>8.0.1</version>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -41,21 +35,10 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>simple-ejb</artifactId>
-            <version>1.10.10</version>
-            <type>ejb</type>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.0</version>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven3-plugin</artifactId>
@@ -79,14 +62,6 @@
                             <cargo.servlet.users>testUser:admin1234!</cargo.servlet.users>
                         </properties>
                     </configuration>
-
-                    <deployables>
-                        <deployable>
-                            <groupId>com.example</groupId>
-                            <artifactId>ejb-service</artifactId>
-                            <type>war</type>
-                        </deployable>
-                    </deployables>
                 </configuration>
             </plugin>
         </plugins>

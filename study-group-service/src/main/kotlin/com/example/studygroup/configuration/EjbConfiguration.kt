@@ -1,6 +1,7 @@
 package com.example.studygroup.configuration
 
-import TryInterface
+import ejbs.TryEjb
+import interfaces.TryInterface
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.DependsOn
@@ -26,14 +27,13 @@ class EjbConfiguration {
     @DependsOn("context")
     @Throws(NamingException::class)
     fun tryStatelessBean(context: Context): TryInterface? {
-        val className = TryInterface::class.java.name
-        return context.lookup("ejb:/ejb-service/TryEjb!$className") as TryInterface?
+        return context.lookup(this.getFullName(TryEjb::class.java, TryInterface::class.java)) as TryInterface?
     }
 
-    private fun getFullName(classType: Class<*>): String {
-        val moduleName = "ejb:/"
-        val beanName = classType.simpleName
-        val viewClassName = classType.name
-        return "$moduleName$beanName!$viewClassName"
+    private fun getFullName(classType: Class<*>, interfaceType: Class<*>): String {
+        val moduleName = "ejb:/ejb-service"
+        val beanName = classType.name
+        val viewClassName = interfaceType.name
+        return "$moduleName/$beanName!$viewClassName"
     }
 }

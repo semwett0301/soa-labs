@@ -1,6 +1,5 @@
-import javax.ejb.Remote;
+package interfaces;
 
-@Remote
 public interface TryInterface {
     String nothing();
 }
