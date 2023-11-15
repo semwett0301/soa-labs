@@ -81,10 +81,14 @@ public class StudyGroupServiceEjb implements StudyGroupService {
     }
 
     public StudyGroup findMinAdmin() {
+        System.out.println(repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightDesc());
+
         return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightDesc();
     }
 
     public StudyGroup findMaxAdmin() {
+        System.out.println(repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightAsc());
+
         return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightAsc();
     }
 

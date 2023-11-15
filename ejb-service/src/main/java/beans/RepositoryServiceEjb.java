@@ -3,28 +3,31 @@ package beans;
 import interfaces.RepositoryService;
 import jakarta.ejb.Local;
 import jakarta.ejb.Singleton;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import lombok.Data;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 import repo.PersonRepository;
 import repo.StudyGroupRepository;
 
-@Data
 @Singleton
 @Local(RepositoryService.class)
 public class RepositoryServiceEjb implements RepositoryService {
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("db_unit");
-    private final JpaRepositoryFactory jrf = new JpaRepositoryFactory(emf.createEntityManager());
+    private final StudyGroupRepository studyGroupRepository;
+    private final PersonRepository personRepository;
 
-
-    @Override
-    public StudyGroupRepository getStudyGroupRepository() {
-        return jrf.getRepository(StudyGroupRepository.class);
+    public RepositoryServiceEjb() {
+        JpaRepositoryFactory jrf = new JpaRepositoryFactory(Persistence.createEntityManagerFactory("db_unit").createEntityManager());
+        this.personRepository = jrf.getRepository(PersonRepository.class);
+        this.studyGroupRepository = jrf.getRepository(StudyGroupRepository.class);
     }
 
     @Override
-    public PersonRepository getPersonRepository() {
-        return jrf.getRepository(PersonRepository.class);
+    public synchronized StudyGroupRepository getStudyGroupRepository() {
+        return this.studyGroupRepository;
+    }
+
+    @Override
+    public synchronized PersonRepository getPersonRepository() {
+        return this.personRepository;
     }
 }
