@@ -1,10 +1,11 @@
 package com.example.studygroup.controller
 
-import com.example.studygroup.dto.StudyGroupCreationRequest
-import com.example.studygroup.entity.FormOfEducation
-import com.example.studygroup.entity.Semester
-import com.example.studygroup.entity.StudyGroup
 import com.fasterxml.jackson.annotation.JsonFormat
+import dto.StudyGroupCreationRequest
+import entity.FormOfEducation
+import entity.Semester
+import entity.StudyGroup
+import interfaces.StudyGroupService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import org.springframework.data.domain.Page
@@ -15,14 +16,12 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/groups")
 class GroupsController(val groupService: StudyGroupService) {
 
     @GetMapping
     @ResponseBody
-    @CrossOrigin("*")
     fun getAllStudyGroups(
         @Valid @RequestParam(value = "page", required = false, defaultValue = "0") @Min(0) page: Int,
         @Valid @RequestParam(value = "pageSize", required = false, defaultValue = "10") @Min(1) pageSize: Int,
@@ -39,12 +38,12 @@ class GroupsController(val groupService: StudyGroupService) {
         val orders = sort?.let { list -> list.map { it.mapToOrder() } }.orEmpty()
         val pageRequest = of(page, pageSize, by(orders))
         return groupService.getAllStudyGroups(
-            pageable = pageRequest,
-            name = name,
-            creationDateEq = creationDateEq,
-            studentsCount = studentsCount,
-            formOfEducation = formOfEducation,
-            semesterEnum = semesterEnum
+            pageRequest,
+            name,
+            studentsCount,
+            formOfEducation,
+            semesterEnum,
+            creationDateEq
         )
     }
 
@@ -55,6 +54,7 @@ class GroupsController(val groupService: StudyGroupService) {
         return Order(direction, property)
     }
 
+    @CrossOrigin("http://localhost:3000")
     @PostMapping
     fun createGroup(@Valid @RequestBody studyGroup: StudyGroupCreationRequest): ResponseEntity<StudyGroup> {
         return ResponseEntity.status(201).body(groupService.createGroup(studyGroup))

@@ -2,8 +2,10 @@ package com.example.studygroup.configuration
 
 
 import beans.PersonServiceEjb
+import beans.StudyGroupServiceEjb
 import beans.TryEjb
 import interfaces.PersonService
+import interfaces.StudyGroupService
 import interfaces.TryInterface
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -6,6 +6,7 @@
 
     <persistence-unit name="db_unit">
         <class>entity.Person</class>
+        <class>entity.StudyGroup</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/study_group"/>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

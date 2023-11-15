@@ -5,25 +5,32 @@ import dto.StudyGroupCreationRequest;
 import entity.FormOfEducation;
 import entity.Semester;
 import entity.StudyGroup;
+import interfaces.RepositoryService;
 import interfaces.StudyGroupService;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
+import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import utils.BestMapperEver;
-import utils.Repositories;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Data
 @Stateless(name = "StudyGroupServiceEjb")
 @Remote(StudyGroupService.class)
 public class StudyGroupServiceEjb implements StudyGroupService {
+    
+    @EJB
+    private RepositoryService repositoryService;
+    
     public Page<StudyGroup> getAllStudyGroups(Pageable pageable, String name, Integer studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, LocalDate creationDateEq) {
         Specification<StudyGroup> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -46,42 +53,42 @@ public class StudyGroupServiceEjb implements StudyGroupService {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 
-        return Repositories.STUDY_GROUP_REPOSITORY.findAll(spec, pageable);
+        return repositoryService.getStudyGroupRepository().findAll(spec, pageable);
     }
 
     public StudyGroup createGroup(StudyGroupCreationRequest studyGroup) {
         StudyGroup newStudyGroup = BestMapperEver.toEntity(studyGroup);
-        return Repositories.STUDY_GROUP_REPOSITORY.save(newStudyGroup);
+        return repositoryService.getStudyGroupRepository().save(newStudyGroup);
     }
 
     public StudyGroup getById(int id) {
-        return Repositories.STUDY_GROUP_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
+        return repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
     }
 
     public StudyGroup updateById(int id, StudyGroupCreationRequest updatedStudyGroup) {
-        StudyGroup findById = Repositories.STUDY_GROUP_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
+        StudyGroup findById = repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
         findById.setName(updatedStudyGroup.name());
         findById.setStudentsCount(updatedStudyGroup.studentsCount());
         findById.setFormOfEducation(updatedStudyGroup.formOfEducation());
         findById.setSemesterEnum(updatedStudyGroup.semesterEnum());
         findById.setGroupAdmin(BestMapperEver.toEntity(updatedStudyGroup.groupAdmin()));
-        return Repositories.STUDY_GROUP_REPOSITORY.save(findById);
+        return repositoryService.getStudyGroupRepository().save(findById);
     }
 
     public void deleteById(int id) {
-        Repositories.STUDY_GROUP_REPOSITORY.findById(id).orElseThrow(() -> new RuntimeException("group with Id:" + id + " not found "));
-        Repositories.STUDY_GROUP_REPOSITORY.deleteById(id);
+        repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new RuntimeException("group with Id:" + id + " not found "));
+        repositoryService.getStudyGroupRepository().deleteById(id);
     }
 
     public StudyGroup findMinAdmin() {
-        return Repositories.STUDY_GROUP_REPOSITORY.findTopByOrderByGroupAdmin_HeightDesc();
+        return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightDesc();
     }
 
     public StudyGroup findMaxAdmin() {
-        return Repositories.STUDY_GROUP_REPOSITORY.findTopByOrderByGroupAdmin_HeightAsc();
+        return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightAsc();
     }
 
     public List<GroupCountByNameResponse> groupCountByName() {
-        return Repositories.STUDY_GROUP_REPOSITORY.groupCountByName();
+        return repositoryService.getStudyGroupRepository().groupCountByName();
     }
 }

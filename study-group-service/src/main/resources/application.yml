@@ -4,14 +4,7 @@ server:
 spring:
   application:
     name: STUDY-GROUP-SERVICE
-  datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:study_group}
-    username: ${DATABASE_USERNAME:admin}
-    password: ${DATABASE_PASSWORD:admin}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+
 eureka:
   client:
     registerWithEureka: true
