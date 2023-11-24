@@ -2,97 +2,76 @@ package beans;
 
 import dto.GroupCountByNameResponse;
 import dto.StudyGroupCreationRequest;
-import entity.FormOfEducation;
-import entity.Semester;
 import entity.StudyGroup;
-import interfaces.RepositoryService;
 import interfaces.StudyGroupService;
-import jakarta.ejb.EJB;
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.Data;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import utils.BestMapperEver;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Stateless(name = "StudyGroupServiceEjb")
 @Remote(StudyGroupService.class)
 public class StudyGroupServiceEjb implements StudyGroupService {
-    
-    @EJB
-    private RepositoryService repositoryService;
-    
-    public Page<StudyGroup> getAllStudyGroups(Pageable pageable, String name, Integer studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, LocalDate creationDateEq) {
-        Specification<StudyGroup> spec = (root, query, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
 
-            if (name != null && !name.isBlank()) {
-                predicates.add(cb.like(root.get("name"), "%" + name + "%"));
-            }
-            if (creationDateEq != null) {
-                predicates.add(cb.equal(root.get("creationDate"), creationDateEq));
-            }
-            if (formOfEducation != null) {
-                predicates.add(cb.equal(root.get("formOfEducation"), formOfEducation));
-            }
-            if (semesterEnum != null) {
-                predicates.add(cb.equal(root.get("semesterEnum"), semesterEnum));
-            }
-            if (studentsCount != null) {
-                predicates.add(cb.equal(root.get("studentsCount"), studentsCount));
-            }
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
-
-        return repositoryService.getStudyGroupRepository().findAll(spec, pageable);
-    }
+    @PersistenceContext(unitName = "db_unit")
+    private EntityManager entityManager;
 
     public StudyGroup createGroup(StudyGroupCreationRequest studyGroup) {
         StudyGroup newStudyGroup = BestMapperEver.toEntity(studyGroup);
-        return repositoryService.getStudyGroupRepository().save(newStudyGroup);
+        entityManager.persist(newStudyGroup);
+        return newStudyGroup;
     }
 
     public StudyGroup getById(int id) {
-        return repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
+        return entityManager.find(StudyGroup.class, id);
     }
 
     public StudyGroup updateById(int id, StudyGroupCreationRequest updatedStudyGroup) {
-        StudyGroup findById = repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("group with Id:" + id + " not found "));
-        findById.setName(updatedStudyGroup.name());
-        findById.setStudentsCount(updatedStudyGroup.studentsCount());
-        findById.setFormOfEducation(updatedStudyGroup.formOfEducation());
-        findById.setSemesterEnum(updatedStudyGroup.semesterEnum());
-        findById.setGroupAdmin(BestMapperEver.toEntity(updatedStudyGroup.groupAdmin()));
-        return repositoryService.getStudyGroupRepository().save(findById);
+        StudyGroup studyGroup = entityManager.find(StudyGroup.class, id);
+        studyGroup.setName(updatedStudyGroup.name());
+        studyGroup.setStudentsCount(updatedStudyGroup.studentsCount());
+        studyGroup.setFormOfEducation(updatedStudyGroup.formOfEducation());
+        studyGroup.setSemesterEnum(updatedStudyGroup.semesterEnum());
+        studyGroup.setGroupAdmin(BestMapperEver.toEntity(updatedStudyGroup.groupAdmin()));
+        entityManager.persist(studyGroup);
+        return studyGroup;
     }
 
     public void deleteById(int id) {
-        repositoryService.getStudyGroupRepository().findById(id).orElseThrow(() -> new RuntimeException("group with Id:" + id + " not found "));
-        repositoryService.getStudyGroupRepository().deleteById(id);
+        StudyGroup studyGroup = entityManager.find(StudyGroup.class, id);
+        entityManager.detach(studyGroup);
     }
 
     public StudyGroup findMinAdmin() {
-        System.out.println(repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightDesc());
+        List<StudyGroup> studyGroupList = entityManager.createQuery("SELECT sg FROM StudyGroup sg ORDER BY sg.groupAdmin.height").getResultList();
 
-        return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightDesc();
+        if (studyGroupList.size() > 0) {
+            return studyGroupList.get(0);
+        } else {
+            return null;
+        }
     }
 
     public StudyGroup findMaxAdmin() {
-        System.out.println(repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightAsc());
+        List<StudyGroup> studyGroupList = entityManager.createQuery("SELECT sg FROM StudyGroup sg ORDER BY sg.groupAdmin.height DESC").getResultList();
 
-        return repositoryService.getStudyGroupRepository().findTopByOrderByGroupAdmin_HeightAsc();
+        if (studyGroupList.size() > 0) {
+            return studyGroupList.get(0);
+        } else {
+            return null;
+        }
     }
 
     public List<GroupCountByNameResponse> groupCountByName() {
-        return repositoryService.getStudyGroupRepository().groupCountByName();
+        List<Object[]> objects = entityManager.createQuery("SELECT sg.name, COUNT(*) FROM StudyGroup sg GROUP BY sg.name").getResultList();
+        return objects.stream().map(arr -> new GroupCountByNameResponse((String) arr[0], (Long) arr[1])).collect(Collectors.toList());
     }
 }
