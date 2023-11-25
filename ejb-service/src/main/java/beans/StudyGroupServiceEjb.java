@@ -27,11 +27,18 @@ public class StudyGroupServiceEjb implements StudyGroupService {
     private EntityManager entityManager;
 
     @Override
-    public List<StudyGroup> getAllStudyGroups(Integer page, Integer pageSize, String name, Long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, LocalDate creationDateEq) {
-        Query query = entityManager.createQuery("SELECT sg FROM StudyGroup sg " +
+    public List<StudyGroup> getAllStudyGroups(Integer page, Integer pageSize, String sort, String name, Long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, LocalDate creationDateEq) {
+        String baseRequest = "SELECT sg FROM StudyGroup sg " +
                 "WHERE (:name IS NULL OR sg.name = :name) AND (:semesterEnum IS NULL OR sg.semesterEnum = :semesterEnum) " +
                 "AND (:creationDate IS NULL OR sg.creationDate = :creationDate) AND (:studentsCount IS NULL OR sg.studentsCount = :studentsCount) " +
-                "AND (:formOfEducation IS NULL OR sg.formOfEducation = :formOfEducation)", StudyGroup.class);
+                "AND (:formOfEducation IS NULL OR sg.formOfEducation = :formOfEducation)";
+
+        if (sort != null) {
+            String order = sort.charAt(0) == '+' ? "ASC" : "DESC";
+            baseRequest = baseRequest + " ORDER BY sg." + sort.substring(1) + " " + order;
+        }
+
+        Query query = entityManager.createQuery(baseRequest, StudyGroup.class);
 
         query.setMaxResults(pageSize);
         query.setFirstResult(page * pageSize);

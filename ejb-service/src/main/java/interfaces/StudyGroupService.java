@@ -15,6 +15,7 @@ public interface StudyGroupService {
     List<StudyGroup> getAllStudyGroups(
             Integer page,
             Integer pageSize,
+            String sort,
             String name,
             Long studentsCount,
             FormOfEducation formOfEducation,
