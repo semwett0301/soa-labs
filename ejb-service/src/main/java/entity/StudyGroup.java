@@ -47,4 +47,11 @@ public class StudyGroup implements Serializable {
         this.groupAdmin = groupAdmin;
     }
 
+    public StudyGroup(String name, LocalDate creationDate, Long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum) {
+        this.name = name;
+        this.creationDate = creationDate;
+        this.studentsCount = studentsCount;
+        this.formOfEducation = formOfEducation;
+        this.semesterEnum = semesterEnum;
+    }
 }

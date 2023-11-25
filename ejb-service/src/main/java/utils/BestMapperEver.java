@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class BestMapperEver {
     public static Person toEntity(AdminCreationRequest adminCreationRequest) {
         return new Person(
-                null,
+                adminCreationRequest.getId(),
                 adminCreationRequest.getName(),
                 adminCreationRequest.getBirthday(),
                 adminCreationRequest.getHeight(),
@@ -21,13 +21,11 @@ public class BestMapperEver {
 
     public static StudyGroup toEntity(StudyGroupCreationRequest studyGroupCreationRequest) {
         return new StudyGroup(
-                null,
                 studyGroupCreationRequest.getName(),
                 LocalDate.now(),
                 studyGroupCreationRequest.getStudentsCount(),
                 studyGroupCreationRequest.getFormOfEducation(),
-                studyGroupCreationRequest.getSemesterEnum(),
-                BestMapperEver.toEntity(studyGroupCreationRequest.getGroupAdmin())
+                studyGroupCreationRequest.getSemesterEnum()
         );
     }
 

@@ -6,7 +6,6 @@ import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import lombok.Data;
 import org.jboss.ejb3.annotation.Pool;
 

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminCreationRequest implements Serializable {
+    Integer id;
     String name;
     LocalDateTime birthday;
     Long height;

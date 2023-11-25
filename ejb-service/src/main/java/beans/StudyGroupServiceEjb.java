@@ -56,8 +56,12 @@ public class StudyGroupServiceEjb implements StudyGroupService {
         return result;
     }
 
+    @Transactional
     public StudyGroup createGroup(StudyGroupCreationRequest studyGroup) {
         StudyGroup newStudyGroup = BestMapperEver.toEntity(studyGroup);
+        Person admin = entityManager.find(Person.class, studyGroup.getGroupAdmin().getId());
+        newStudyGroup.setGroupAdmin(admin);
+
         entityManager.persist(newStudyGroup);
         return newStudyGroup;
     }
