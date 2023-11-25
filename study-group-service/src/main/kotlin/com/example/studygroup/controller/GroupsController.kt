@@ -37,10 +37,17 @@ class GroupsController(val groupService: StudyGroupService) {
     ): Page<StudyGroup> {
         val orders = sort?.let { list -> list.map { it.mapToOrder() } }.orEmpty()
         val pageRequest = of(page, pageSize, by(orders))
+        var sortVal: String? = null
+
+        if (sort != null && sort.isNotEmpty()) {
+            sortVal = sort[0];
+        }
+
 
         val groupList = groupService.getAllStudyGroups(
             page,
             pageSize,
+            sortVal,
             name,
             studentsCount,
             formOfEducation,
