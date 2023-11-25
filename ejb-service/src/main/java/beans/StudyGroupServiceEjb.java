@@ -2,17 +2,19 @@ package beans;
 
 import dto.GroupCountByNameResponse;
 import dto.StudyGroupCreationRequest;
+import entity.FormOfEducation;
+import entity.Semester;
 import entity.StudyGroup;
 import interfaces.StudyGroupService;
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import lombok.Data;
 import utils.BestMapperEver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,27 @@ public class StudyGroupServiceEjb implements StudyGroupService {
 
     @PersistenceContext(unitName = "db_unit")
     private EntityManager entityManager;
+
+    @Override
+    public List<StudyGroup> getAllStudyGroups(Integer page, Integer pageSize, String name, Long studentsCount, FormOfEducation formOfEducation, Semester semesterEnum, LocalDate creationDateEq) {
+        Query query = entityManager.createQuery("SELECT sg FROM StudyGroup sg " +
+                "WHERE (:name IS NULL OR sg.name = :name) AND (:semesterEnum IS NULL OR sg.semesterEnum = :semesterEnum) " +
+                "AND (:creationDate IS NULL OR sg.creationDate = :creationDate) AND (:studentsCount IS NULL OR sg.studentsCount = :studentsCount) " +
+                "AND (:formOfEducation IS NULL OR sg.formOfEducation = :formOfEducation)", StudyGroup.class);
+
+        query.setMaxResults(pageSize);
+        query.setFirstResult(page * pageSize);
+
+        query.setParameter("name", name);
+        query.setParameter("semesterEnum", semesterEnum);
+        query.setParameter("creationDate", creationDateEq);
+        query.setParameter("studentsCount", studentsCount);
+        query.setParameter("formOfEducation", formOfEducation);
+
+        List<StudyGroup> result = query.getResultList();
+
+        return result;
+    }
 
     public StudyGroup createGroup(StudyGroupCreationRequest studyGroup) {
         StudyGroup newStudyGroup = BestMapperEver.toEntity(studyGroup);
@@ -46,8 +69,9 @@ public class StudyGroupServiceEjb implements StudyGroupService {
     }
 
     public void deleteById(int id) {
-        StudyGroup studyGroup = entityManager.find(StudyGroup.class, id);
-        entityManager.detach(studyGroup);
+        Query query = entityManager.createQuery("DELETE FROM StudyGroup s WHERE s.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 
     public StudyGroup findMinAdmin() {

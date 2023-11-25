@@ -23,7 +23,6 @@ public class PersonServiceEjb implements PersonService {
 
     @Override
     public List<Person> getAll() {
-        System.out.println(entityManager.createQuery("SELECT person FROM Person person").getResultList());
         return entityManager.createQuery("SELECT person FROM Person person").getResultList();
     }
 }

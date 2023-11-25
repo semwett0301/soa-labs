@@ -148,7 +148,7 @@ export const StudyGroupForm: FC<Props> = ({ initialValues, onFinish }) => {
         label="Админ"
         rules={[
           {
-            message: "Укажите текущий семестр",
+            message: "Укажите админа",
             required: true,
           },
         ]}

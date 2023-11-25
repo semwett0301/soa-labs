@@ -6,7 +6,7 @@
 
     <groupId>com.example</groupId>
     <artifactId>ejb-service</artifactId>
-    <version>7.5</version>
+    <version>8.2</version>
     <name>ejb-service</name>
 
     <properties>
