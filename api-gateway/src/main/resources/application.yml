@@ -22,6 +22,7 @@ spring:
               - POST
               - PUT
               - DELETE
+            allowedHeaders: "*"
       discovery:
         locator:
           enabled: true

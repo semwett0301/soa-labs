@@ -11,5 +11,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class GroupCountByNameResponse implements Serializable {
     String groupName;
-    Long aLong;
+    Long count;
 }
