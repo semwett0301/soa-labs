@@ -9,6 +9,7 @@ import interfaces.StudyGroupService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Min
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest.*
 import org.springframework.data.domain.Sort.*
 import org.springframework.format.annotation.DateTimeFormat
@@ -19,7 +20,6 @@ import java.time.LocalDate
 @RestController
 @RequestMapping("/groups")
 class GroupsController(val groupService: StudyGroupService) {
-
     @GetMapping
     @ResponseBody
     fun getAllStudyGroups(
@@ -30,21 +30,27 @@ class GroupsController(val groupService: StudyGroupService) {
             value = "creationDate",
             required = false
         ) @JsonFormat(pattern = "yyyy-MM-dd") @DateTimeFormat(pattern = "yyyy-MM-dd") creationDateEq: LocalDate?,
-        @Valid @RequestParam(value = "studentsCount", required = false) @Min(0) studentsCount: Int?,
+        @Valid @RequestParam(value = "studentsCount", required = false) @Min(0) studentsCount: Long?,
         @Valid @RequestParam(value = "formOfEducation", required = false) formOfEducation: FormOfEducation?,
         @Valid @RequestParam(value = "semesterEnum", required = false) semesterEnum: Semester?,
         @Valid @RequestParam(value = "sort", required = false) sort: List<String>?
     ): Page<StudyGroup> {
         val orders = sort?.let { list -> list.map { it.mapToOrder() } }.orEmpty()
         val pageRequest = of(page, pageSize, by(orders))
-        return groupService.getAllStudyGroups(
-            pageRequest,
+
+        val groupList = groupService.getAllStudyGroups(
+            page,
+            pageSize,
             name,
             studentsCount,
             formOfEducation,
             semesterEnum,
             creationDateEq
         )
+
+        groupList.forEach() { println(it.id) };
+
+        return PageImpl(groupList, pageRequest, groupList.size.toLong());
     }
 
     fun String.mapToOrder(): Order {
@@ -54,7 +60,7 @@ class GroupsController(val groupService: StudyGroupService) {
         return Order(direction, property)
     }
 
-    @CrossOrigin("http://localhost:3000")
+
     @PostMapping
     fun createGroup(@Valid @RequestBody studyGroup: StudyGroupCreationRequest): ResponseEntity<StudyGroup> {
         return ResponseEntity.status(201).body(groupService.createGroup(studyGroup))
@@ -81,5 +87,4 @@ class GroupsController(val groupService: StudyGroupService) {
 
     @PostMapping("/group-count-by-name")
     fun groupCountByName() = groupService.groupCountByName()
-
 }

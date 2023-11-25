@@ -2,10 +2,11 @@ package beans;
 
 import entity.Person;
 import interfaces.PersonService;
-import interfaces.RepositoryService;
-import jakarta.ejb.EJB;
 import jakarta.ejb.Remote;
 import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import lombok.Data;
 import org.jboss.ejb3.annotation.Pool;
 
@@ -16,12 +17,13 @@ import java.util.List;
 @Stateless(name = "PersonServiceEjb")
 @Pool("slsb-strict-max-pool")
 public class PersonServiceEjb implements PersonService {
-    @EJB
-    private RepositoryService repositoryService;
+
+    @PersistenceContext(unitName="db_unit")
+    private EntityManager entityManager;
 
     @Override
     public List<Person> getAll() {
-        return repositoryService.getPersonRepository().findAll();
+        return entityManager.createQuery("SELECT person FROM Person person").getResultList();
     }
 }
 

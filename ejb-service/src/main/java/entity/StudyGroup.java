@@ -1,15 +1,16 @@
 package entity;
 
 
-
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Data
-public class StudyGroup {
+@Table(name = "studygroup")
+public class StudyGroup implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,6 @@ public class StudyGroup {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate = LocalDate.now();
 
     private Long studentsCount;
