@@ -39,3 +39,4 @@ out/
 **/gradle/
 **/gradlew
 **/gradlew.bat
+/wildfly-27.0.0.Final/
