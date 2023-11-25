@@ -1,7 +1,7 @@
 package com.example.isuservice.service
 
-import com.example.isuservice.dto.StudyGroup
 import com.fasterxml.jackson.databind.ObjectMapper
+import entity.StudyGroup
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service

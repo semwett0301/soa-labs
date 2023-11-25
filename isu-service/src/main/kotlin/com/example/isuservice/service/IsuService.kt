@@ -1,7 +1,7 @@
 package com.example.isuservice.service
 
-import com.example.isuservice.dto.FormOfEducation
-import com.example.isuservice.dto.StudyGroup
+import entity.FormOfEducation
+import entity.StudyGroup
 import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 

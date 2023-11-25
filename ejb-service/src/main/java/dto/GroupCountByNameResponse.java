@@ -1,8 +1,15 @@
 package dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
-public record GroupCountByNameResponse(String groupName, Long count) implements Serializable {
-
-    // You may want to override equals, hashCode, and toString methods as well
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GroupCountByNameResponse implements Serializable {
+    String groupName;
+    Long aLong;
 }

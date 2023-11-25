@@ -1,8 +1,8 @@
 package com.example.isuservice.controller
 
-import com.example.isuservice.dto.FormOfEducation
 import com.example.isuservice.service.IsuService
 import com.example.isuservice.service.Result
+import entity.FormOfEducation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

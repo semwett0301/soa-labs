@@ -11,23 +11,23 @@ public class BestMapperEver {
     public static Person toEntity(AdminCreationRequest adminCreationRequest) {
         return new Person(
                 null,
-                adminCreationRequest.name(),
-                adminCreationRequest.birthday(),
-                adminCreationRequest.height(),
-                adminCreationRequest.weight(),
-                adminCreationRequest.passportID()
+                adminCreationRequest.getName(),
+                adminCreationRequest.getBirthday(),
+                adminCreationRequest.getHeight(),
+                adminCreationRequest.getWeight(),
+                adminCreationRequest.getPassportID()
         );
     }
 
     public static StudyGroup toEntity(StudyGroupCreationRequest studyGroupCreationRequest) {
         return new StudyGroup(
                 null,
-                studyGroupCreationRequest.name(),
+                studyGroupCreationRequest.getName(),
                 LocalDate.now(),
-                studyGroupCreationRequest.studentsCount(),
-                studyGroupCreationRequest.formOfEducation(),
-                studyGroupCreationRequest.semesterEnum(),
-                BestMapperEver.toEntity(studyGroupCreationRequest.groupAdmin())
+                studyGroupCreationRequest.getStudentsCount(),
+                studyGroupCreationRequest.getFormOfEducation(),
+                studyGroupCreationRequest.getSemesterEnum(),
+                BestMapperEver.toEntity(studyGroupCreationRequest.getGroupAdmin())
         );
     }
 

@@ -3,6 +3,7 @@ package beans;
 import dto.GroupCountByNameResponse;
 import dto.StudyGroupCreationRequest;
 import entity.FormOfEducation;
+import entity.Person;
 import entity.Semester;
 import entity.StudyGroup;
 import interfaces.StudyGroupService;
@@ -11,6 +12,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import utils.BestMapperEver;
 
@@ -64,14 +66,23 @@ public class StudyGroupServiceEjb implements StudyGroupService {
         return entityManager.find(StudyGroup.class, id);
     }
 
+    @Transactional
     public StudyGroup updateById(int id, StudyGroupCreationRequest updatedStudyGroup) {
         StudyGroup studyGroup = entityManager.find(StudyGroup.class, id);
-        studyGroup.setName(updatedStudyGroup.name());
-        studyGroup.setStudentsCount(updatedStudyGroup.studentsCount());
-        studyGroup.setFormOfEducation(updatedStudyGroup.formOfEducation());
-        studyGroup.setSemesterEnum(updatedStudyGroup.semesterEnum());
-        studyGroup.setGroupAdmin(BestMapperEver.toEntity(updatedStudyGroup.groupAdmin()));
-        entityManager.persist(studyGroup);
+        studyGroup.setName(updatedStudyGroup.getName());
+        studyGroup.setStudentsCount(updatedStudyGroup.getStudentsCount());
+        studyGroup.setFormOfEducation(updatedStudyGroup.getFormOfEducation());
+        studyGroup.setSemesterEnum(updatedStudyGroup.getSemesterEnum());
+
+        if (updatedStudyGroup.getGroupAdmin() != null) {
+            Person admin = studyGroup.getGroupAdmin();
+            admin.setBirthday(updatedStudyGroup.getGroupAdmin().getBirthday());
+            admin.setHeight(updatedStudyGroup.getGroupAdmin().getHeight());
+            admin.setWeight(updatedStudyGroup.getGroupAdmin().getWeight());
+            admin.setName(updatedStudyGroup.getGroupAdmin().getName());
+            admin.setPassportID(updatedStudyGroup.getGroupAdmin().getPassportID());
+        }
+
         return studyGroup;
     }
 

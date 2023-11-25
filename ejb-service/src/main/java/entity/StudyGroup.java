@@ -14,6 +14,7 @@ public class StudyGroup implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false, insertable = true, updatable = true)
     private Integer id;
 
     private String name;
