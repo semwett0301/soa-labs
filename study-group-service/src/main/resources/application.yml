@@ -4,12 +4,11 @@ server:
 spring:
   application:
     name: STUDY-GROUP-SERVICE
-
-eureka:
-  client:
-    registerWithEureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8081/eureka
-  instance:
-#    instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  profiles:
+    active: development
+  config:
+    import: configserver:http://localhost:8888
+  cloud:
+    config:
+      username: admin
+      password: admin

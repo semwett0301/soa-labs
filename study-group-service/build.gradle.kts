@@ -41,6 +41,8 @@ dependencies {
     implementation("com.example:ejb-service:10.0")
     implementation("org.slf4j:slf4j-api:1.6.1")
     implementation("org.slf4j:slf4j-simple:1.6.1")
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client
+    implementation("org.springframework.cloud:spring-cloud-config-client:4.0.4")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")

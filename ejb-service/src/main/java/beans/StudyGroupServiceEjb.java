@@ -17,7 +17,9 @@ import lombok.Data;
 import utils.BestMapperEver;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -35,7 +37,11 @@ public class StudyGroupServiceEjb implements StudyGroupService {
                 "AND (:creationDate IS NULL OR sg.creationDate = :creationDate) AND (:studentsCount IS NULL OR sg.studentsCount = :studentsCount) " +
                 "AND (:formOfEducation IS NULL OR sg.formOfEducation = :formOfEducation)";
 
-        if (sort != null) {
+        Set<String> fieldSet = Arrays.stream(StudyGroup.class.getDeclaredFields())
+                .map(el -> el.getName())
+                .collect(Collectors.toSet());
+
+        if (sort != null && fieldSet.contains(sort.substring(1))) {
             String order = sort.charAt(0) == '+' ? "ASC" : "DESC";
             baseRequest = baseRequest + " ORDER BY sg." + sort.substring(1) + " " + order;
         }

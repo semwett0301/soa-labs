@@ -31,7 +31,8 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("com.example:ejb-service:10.0")
-
+// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client
+    implementation("org.springframework.cloud:spring-cloud-config-client:4.0.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
