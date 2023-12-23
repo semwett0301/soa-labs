@@ -28,7 +28,8 @@ public class IsuEndpoint {
         entity.StudyGroup studyGroup = studyGroupApi.studyGroupById(request.getId());
         studyGroup.setStudentsCount(0l);
         entity.StudyGroup studyGroup1 = studyGroupApi.putStudyGroup(studyGroup);
-        objectMapper.cl
+        ExpellAllResponse response = new ExpellAllResponse();
+        StuduGroup studuGroup = new StuduGroup();
         return response;
     }
 
