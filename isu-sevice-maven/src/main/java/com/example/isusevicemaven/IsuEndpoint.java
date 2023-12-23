@@ -18,31 +18,27 @@ import javax.xml.datatype.DatatypeConfigurationException;
 @Endpoint
 public class IsuEndpoint {
     private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
-    private final StudyGroupApi studyGroupApi;
+    private final IsuService isuService;
 
-    public IsuEndpoint(StudyGroupApi studyGroupApi) {
-        this.studyGroupApi = studyGroupApi;
+    public IsuEndpoint(IsuService isuService) {
+        this.isuService = isuService;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "expelAllRequest")
     @ResponsePayload
     public ExpelAllResponse expelAll(@RequestPayload ExpelAllRequest request) throws JsonProcessingException, DatatypeConfigurationException {
-        entity.StudyGroup studyGroup = studyGroupApi.studyGroupById(request.getId());
-        studyGroup.setStudentsCount(0l);
-        entity.StudyGroup studyGroup1 = studyGroupApi.putStudyGroup(studyGroup);
         ExpelAllResponse expelAllResponse = new ExpelAllResponse();
-        expelAllResponse.setStudyGroup(BestMapperEver.from(studyGroup1));
+        entity.StudyGroup studyGroup = isuService.expelAll(request.getId());
+        expelAllResponse.setStudyGroup(BestMapperEver.from(studyGroup));
         return expelAllResponse;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "changeEduFormRequest")
     @ResponsePayload
     public ChangeEduFormResponse changeEduForm(@RequestPayload ChangeEduFormRequest request) throws JsonProcessingException, DatatypeConfigurationException {
-        entity.StudyGroup studyGroup = studyGroupApi.studyGroupById(request.getId());
-        studyGroup.setFormOfEducation(FormOfEducation.valueOf(request.getNewFormOfEducation().name()));
-        StudyGroup studyGroup1 = studyGroupApi.putStudyGroup(studyGroup);
         ChangeEduFormResponse response = new ChangeEduFormResponse();
-        response.setStudyGroup(BestMapperEver.from(studyGroup1));
+        StudyGroup studyGroup = isuService.changeEduForm(request.getId(), FormOfEducation.valueOf(request.getNewFormOfEducation().name()));
+        response.setStudyGroup(BestMapperEver.from(studyGroup));
         return response;
     }
 
