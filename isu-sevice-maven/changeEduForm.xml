@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://spring.io/guides/gs-producing-web-service">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:changeEduFormRequest>
+            <gs:id>1</gs:id>
+            <gs:newFormOfEducation>FULL_TIME_EDUCATION</gs:newFormOfEducation>
+        </gs:changeEduFormRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
