@@ -36,7 +36,7 @@ spring:
           filters:
             - StripPrefix=2
         - id: dima-pidor
-          uri: lb://ISU-SERVICE
+          uri: http://localhost:45678
           order: 1
           predicates:
             - Path=/api/v1/isu/**

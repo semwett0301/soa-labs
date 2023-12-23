@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+    <http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9d8cbfb9-9b7f-406f-a15f-09d3654fbe2c">
+        <http:listener-connection host="0.0.0.0" port="45678">
+        </http:listener-connection>
+    </http:listener-config>
+    <wsc:config name="Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="2aae44c3-252b-49f2-883d-82830aace35d" >
+        <wsc:connection wsdlLocation="http://localhost:1234/ws/isu.wsdl" service="IsuPortService" port="IsuPortSoap11" address="http://localhost:1234/ws" >
+            <wsc:web-service-security actor="http://schemas.xmlsoap.org/soap/actor/next" />
+        </wsc:connection>
+    </wsc:config>
+    <flow name="expellAll" doc:id="b5e3509b-859e-4113-bd52-0dbf1f70abd3" >
+        <http:listener doc:name="Listener" doc:id="20f345c9-b045-49e1-b7ad-8ac03fc5269e" config-ref="HTTP_Listener_config" path="/groups/{groupId}/expel-all" allowedMethods="POST">
+            <http:response >
+                <http:headers ><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+            </http:response>
+            <http:error-response >
+                <http:body ><![CDATA[#[payload]]]></http:body>
+                <http:headers ><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+            </http:error-response>
+
+        </http:listener>
+        <ee:transform doc:name="Transform Message" doc:id="f83f4f82-e54e-46c0-97b1-5cf0779713b2" >
+            <ee:message >
+                <ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://spring.io/guides/gs-producing-web-service
+---
+{
+	ns0#expelAllRequest: {
+		ns0#id: attributes.uriParams.groupId
+	}
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <wsc:consume doc:name="Consume" doc:id="070c7584-8143-4894-a7c9-ab8051611918" config-ref="Web_Service_Consumer_Config" operation="ExpelAll"/>
+        <ee:transform doc:name="Transform Message" doc:id="bf88dbe2-1f67-4d66-8c2d-7a497aa1aadd" >
+            <ee:message >
+                <ee:set-payload ><![CDATA[%dw 2.0
+ns ns0 http://spring.io/guides/gs-producing-web-service
+
+output application/json
+---
+{
+	"id": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#id,
+	"name": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#name,
+	"creationDate": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#creationDate,
+	"studentsCount": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#studentsCount,
+	"formOfEducation": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#formOfEducation,
+	"semesterEnum": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#semesterEnum,
+	"groupAdmin": {
+		"id": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#id,
+		"name": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#name,
+		"birthday": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#birthday,
+		"height": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#height,
+		"weight": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#weight,
+		"passportID": payload.body.ns0#ExpelAllResponse.ns0#studyGroup.ns0#groupAdmin.ns0#passportID
+	}
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="Logger" doc:id="c334ba8a-6d6b-499d-ba85-0ca8332067b9" />
+        <error-handler >
+            <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="e923a3ba-e28d-4df7-81c2-8c515c2eed78" type="ANY">
+                <logger level="INFO" doc:name="Logger" doc:id="3eb508eb-c552-4a6b-9dd4-98e9f21438dd" />
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="changeEduForm" doc:id="3b4d3eb3-f299-41cf-9c2b-634315333c01" >
+        <http:listener doc:name="Listener" doc:id="9751830d-2677-41a2-9fc7-00d2d3fbfa3c" config-ref="HTTP_Listener_config" path="/{groupId}/change-edu-form/{formOfEducation}" allowedMethods="POST">
+            <http:response >
+                <http:headers ><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+            </http:response>
+            <http:error-response >
+                <http:body ><![CDATA[#[payload]]]></http:body>
+                <http:headers ><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*",
+	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
+	"Access-Control-Allow-Headers" : "*",
+	"Access-Control-Allow-Credentials" : "true"
+}]]]></http:headers>
+            </http:error-response>
+
+        </http:listener>
+        <ee:transform doc:name="Transform Message" doc:id="8a8033ef-e7dc-453a-8bdc-0f7c033a5d58" >
+            <ee:message >
+                <ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://spring.io/guides/gs-producing-web-service
+---
+{
+	ns0#changeEduFormRequest: {
+		ns0#id: attributes.uriParams.groupId,
+		ns0#newFormOfEducation: attributes.uriParams.formOfEducation
+	}
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <wsc:consume doc:name="Consume" doc:id="48c730a6-e751-4296-b84b-46a5175fdc8d" config-ref="Web_Service_Consumer_Config" operation="changeEduForm"/>
+        <ee:transform doc:name="Transform Message" doc:id="dd538be9-c4f2-40b0-8d7e-41d3a419924d" >
+            <ee:message >
+                <ee:set-payload ><![CDATA[%dw 2.0
+ns ns0 http://spring.io/guides/gs-producing-web-service
+
+output application/json
+---
+{
+	"id": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#id,
+	"name": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#name,
+	"creationDate": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#creationDate,
+	"studentsCount": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#studentsCount,
+	"formOfEducation": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#formOfEducation,
+	"semesterEnum": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#semesterEnum,
+	"groupAdmin": {
+		"id": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#id,
+		"name": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#name,
+		"birthday": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#birthday,
+		"height": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#height,
+		"weight": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#weight,
+		"passportID": payload.body.ns0#changeEduFormResponse.ns0#studyGroup.ns0#groupAdmin.ns0#passportID
+	}
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+        <logger level="INFO" doc:name="Logger" doc:id="4cd1f5bc-79cd-4a2b-8e46-58d05d8d3d82" />
+        <error-handler >
+            <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="6209e3af-eb8a-4240-8f7e-89b9461d1625" type="ANY">
+                <logger level="INFO" doc:name="Logger" doc:id="5e2a28bb-8326-4dfb-bb2c-805a4c56dbc8" />
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+</mule>

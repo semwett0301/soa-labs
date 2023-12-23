@@ -17,9 +17,9 @@ public class StudyGroupApi {
     private final String host;
     private final ObjectMapper objectMapper;
 
-    public StudyGroupApi(RestTemplate restTemplate, String host, ObjectMapper objectMapper) {
+    public StudyGroupApi(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
-        this.host = host;
+        this.host = "http://study-group-service";
         this.objectMapper = objectMapper;
     }
 

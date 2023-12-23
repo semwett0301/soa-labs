@@ -3,7 +3,7 @@
     <soapenv:Header/>
     <soapenv:Body>
         <gs:expelAllRequest>
-            <gs:id>1</gs:id>
+            <gs:id>2</gs:id>
         </gs:expelAllRequest>
     </soapenv:Body>
 </soapenv:Envelope>
