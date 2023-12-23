@@ -1,5 +1,6 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.service;
 
+import com.example.isusevicemaven.utils.StudyGroupApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import entity.FormOfEducation;
 import entity.StudyGroup;

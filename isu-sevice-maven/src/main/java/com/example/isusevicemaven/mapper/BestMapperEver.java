@@ -1,4 +1,4 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.mapper;
 
 import io.spring.guides.gs_producing_web_service.FormOfEducation;
 import io.spring.guides.gs_producing_web_service.Person;

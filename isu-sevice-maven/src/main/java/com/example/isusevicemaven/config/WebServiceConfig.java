@@ -1,4 +1,4 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.config;
 
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;

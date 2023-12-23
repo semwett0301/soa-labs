@@ -1,4 +1,4 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -18,26 +18,8 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     </wsc:config>
     <flow name="expellAll" doc:id="b5e3509b-859e-4113-bd52-0dbf1f70abd3" >
         <http:listener doc:name="Listener" doc:id="20f345c9-b045-49e1-b7ad-8ac03fc5269e" config-ref="HTTP_Listener_config" path="/groups/{groupId}/expel-all" allowedMethods="POST">
-            <http:response >
-                <http:headers ><![CDATA[#[output application/java
----
-{
-	"Access-Control-Allow-Origin" : "*",
-	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
-	"Access-Control-Allow-Headers" : "*",
-	"Access-Control-Allow-Credentials" : "true"
-}]]]></http:headers>
-            </http:response>
             <http:error-response >
                 <http:body ><![CDATA[#[payload]]]></http:body>
-                <http:headers ><![CDATA[#[output application/java
----
-{
-	"Access-Control-Allow-Origin" : "*",
-	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
-	"Access-Control-Allow-Headers" : "*",
-	"Access-Control-Allow-Credentials" : "true"
-}]]]></http:headers>
             </http:error-response>
 
         </http:listener>
@@ -88,27 +70,9 @@ output application/json
         </error-handler>
     </flow>
     <flow name="changeEduForm" doc:id="3b4d3eb3-f299-41cf-9c2b-634315333c01" >
-        <http:listener doc:name="Listener" doc:id="9751830d-2677-41a2-9fc7-00d2d3fbfa3c" config-ref="HTTP_Listener_config" path="/{groupId}/change-edu-form/{formOfEducation}" allowedMethods="POST">
-            <http:response >
-                <http:headers ><![CDATA[#[output application/java
----
-{
-	"Access-Control-Allow-Origin" : "*",
-	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
-	"Access-Control-Allow-Headers" : "*",
-	"Access-Control-Allow-Credentials" : "true"
-}]]]></http:headers>
-            </http:response>
+        <http:listener doc:name="Listener" doc:id="9751830d-2677-41a2-9fc7-00d2d3fbfa3c" config-ref="HTTP_Listener_config" path="/groups/{groupId}/change-edu-form/{formOfEducation}" allowedMethods="POST">
             <http:error-response >
                 <http:body ><![CDATA[#[payload]]]></http:body>
-                <http:headers ><![CDATA[#[output application/java
----
-{
-	"Access-Control-Allow-Origin" : "*",
-	"Access-Control-Allow-Methods" : "GET, PUT, POST, DELETE, HEAD, OPTIONS",
-	"Access-Control-Allow-Headers" : "*",
-	"Access-Control-Allow-Credentials" : "true"
-}]]]></http:headers>
             </http:error-response>
 
         </http:listener>

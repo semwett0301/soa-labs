@@ -1,4 +1,4 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;

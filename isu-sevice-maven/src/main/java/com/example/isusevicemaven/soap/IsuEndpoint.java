@@ -1,6 +1,8 @@
-package com.example.isusevicemaven;
+package com.example.isusevicemaven.soap;
 
 
+import com.example.isusevicemaven.mapper.BestMapperEver;
+import com.example.isusevicemaven.service.IsuService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import entity.FormOfEducation;
 import entity.StudyGroup;

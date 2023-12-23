@@ -9,7 +9,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="expelAllResponse">
+    <xs:element name="ExpelAllResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="studyGroup" type="tns:StudyGroup"/>
