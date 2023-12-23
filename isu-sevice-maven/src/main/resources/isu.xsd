@@ -36,13 +36,13 @@
 
     <xs:complexType name="StudyGroup">
         <xs:sequence>
-            <xs:element name="id" type="xs:integer"/>
+            <xs:element name="id" type="xs:int"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="creationDate" type="xs:date"/>
             <xs:element name="studentsCount" type="xs:long"/>
             <xs:element name="formOfEducation" type="tns:FormOfEducation"/>
             <xs:element name="semesterEnum" type="tns:Semester"/>
-            <xs:element name="passportID" type="tns:Person"/>
+            <xs:element name="groupAdmin" type="tns:Person"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -64,7 +64,7 @@
 
     <xs:complexType name="Person">
         <xs:sequence>
-            <xs:element name="id"  type="xs:integer"/>
+            <xs:element name="id"  type="xs:int"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="birthday" type="xs:dateTime"/>
             <xs:element name="height" type="xs:long"/>
